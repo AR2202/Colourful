@@ -1,0 +1,54 @@
+# Colourful
+
+Welcome to Colourful - the language that brings colours into programming!
+
+## Overview
+
+Colourful is an esotheric programming language based on combinatory logic. Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined AFTER it is used.
+
+## Syntax
+
+In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
+
+
+## Semantics
+
+The semantics of Colourful are based on combinators from combinatory logic, with the following differences:
+* in accordance with the theme of the jam, the program is evaluated end to start, so evaluation happens right to left
+* there are no parentheses
+
+Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs.
+
+Colour definitions have special syntax. However, syntactically incorrect definitions are just ignored.
+
+Colours are immutable. If re-defined, only the last definition is valid. The pre-defined colours cannot be re-defined. Any such attempt is ignored.
+
+Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. 
+
+As the system only allows application of colours to colours, any literals such as True, False, Integers etc have to be encoded using something analogous to church encodings.
+
+### Example: booleans
+
+Booleans need to be encoded as colors first.
+
+True = Red 
+
+False = Orange
+
+a and b = a b Orange
+
+a or b = a Red b 
+
+## Compilation
+
+Colourful compiles to an expression in the SKI combinator calculus, which is the output of the program.
+
+## #language-makers Theme
+
+### The end is not the end
+
+Colourful was designed for the #language-makers programming language jam with the theme "the end is not the end"
+
+### How Colourful fits this theme
+
+Colourful compiles the program from beginning to end, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top.
