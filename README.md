@@ -4,7 +4,7 @@ Welcome to Colourful - the language that brings colours into programming!
 
 ## Overview
 
-Colourful is an esotheric programming language based on combinatory logic. Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined AFTER it is used.
+Colourful is an esoteric programming language based on combinatory logic. Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined AFTER it is used. Evaluation happens bottom to top and right to left.
 
 ## Syntax
 
@@ -72,10 +72,17 @@ where
 The semantics of Colourful are based on combinators from combinatory logic, with the following differences:
 * in accordance with the theme of the jam, the program is evaluated end to start, so evaluation happens right to left
 * there are no parentheses
+### No errors or exceptions
 
-Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs.
+Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs. The user interface of the compiler could through exceptions, though, if e.g. the user attempts to compile a file that doesn't exist.
 
 Colour definitions have special syntax. However, syntactically incorrect definitions are just ignored.
+
+### Everything is valid
+
+Due to these evaluation rules, every sting (including this README) is a valid Colourful program.
+
+### Colour definitions
 
 Colours are immutable. If re-defined, only the last definition is valid. The pre-defined colours cannot be re-defined. Any such attempt is ignored.
 
@@ -99,11 +106,18 @@ All definitions are immutbale, with the LAST definition being the relevant one. 
 
 Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing (will be fixed in the future).
 
+
+### Turing completeness
+
+Colourful using only pre-defined colours is not turing complete, due to the lack of parenthesized expressions. It should be possible to make it turing complete with user-defined colours. A proof is not given here.
+
 ## Compilation
 
 Colourful compiles to an expression in the SKI combinator calculus, which is the output of the program.
 
-In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression.
+In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression. 
+
+The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
 
 ## #language-makers Theme
 
@@ -116,3 +130,6 @@ Colourful was designed for the #language-makers programming language jam with th
 Colourful compiles the program from beginning to end, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has reverse lexical scope, meaning colours have to be defined AFTER they are used.
 
 ## Usage
+
+The haskell tool stack is recommended.
+
