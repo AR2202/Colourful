@@ -8,7 +8,9 @@ Colourful is an esotheric programming language based on combinatory logic. Inste
 
 ## Syntax
 
-In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
+In Colourful, only pre-defined or user-defined colours have meaning. All other characters (with the exception of the special form for colour definitions), including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
+
+Ideally, only ASCII characters should be used in a Colourful program.
 
 ### Pre-defined colours
 
@@ -50,6 +52,20 @@ Blue Red Blue = Yellow
 
 Yellow Red Blue = Yellow
 
+### User defined colours
+
+Colours have to be defined AFTER they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed BEFORE the definiton that references them.
+
+The syntax for definitions is:
+
+`end existingColours = newName newColour`
+
+where 
+* existingColours is a sequence of existing colours that make up the definition (in the usual evaluation order, i.e. right to left)
+* newName is the name of the new colour, which can be anything except a pre-defined colour or a colour defined later in the program, or one of the keywords or the = sign
+* newColour is a mandatory keyword
+* end is a mandatory keyword
+* = is a mandatory assignment operator
 
 ## Semantics
 
@@ -78,6 +94,10 @@ False = Orange
 a and b = Orange b a
 
 a or b = b Red a 
+### Evaluation rules of user defined colours
+All definitions are immutbale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
+
+Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing (will be fixed in the future).
 
 ## Compilation
 
@@ -93,4 +113,6 @@ Colourful was designed for the #language-makers programming language jam with th
 
 ### How Colourful fits this theme
 
-Colourful compiles the program from beginning to end, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top.
+Colourful compiles the program from beginning to end, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has reverse lexical scope, meaning colours have to be defined AFTER they are used.
+
+## Usage

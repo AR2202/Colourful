@@ -27,6 +27,7 @@ library
   exposed-modules:
       Lib
       Parser
+      Transpiler
   other-modules:
       Paths_Colourful
   autogen-modules:
