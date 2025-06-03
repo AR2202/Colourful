@@ -10,6 +10,46 @@ Colourful is an esotheric programming language based on combinatory logic. Inste
 
 In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
 
+### Pre-defined colours
+
+x Yellow = x (identity colour)
+
+y x Red = x (const colour)
+
+z y x Blue = (z y) (z x)
+
+Orange = Yellow Red
+
+Green = Yellow Blue 
+
+Purple = Blue Red
+
+Pink = Red Red
+
+Cyan = Blue Blue 
+
+Violet = Red Blue
+
+Lime = Yellow Yellow Blue
+
+Teal = Blue Yellow Blue
+
+### Equivalences
+
+Some colours are equivalent and don't need a special definition
+
+Red Yellow = Red 
+
+Blue Yellow = Blue
+
+Yellow Yellow = Yellow
+
+Red Red Blue = Yellow
+
+Blue Red Blue = Yellow
+
+Yellow Red Blue = Yellow
+
 
 ## Semantics
 
@@ -42,6 +82,8 @@ a or b = a Red b
 ## Compilation
 
 Colourful compiles to an expression in the SKI combinator calculus, which is the output of the program.
+
+In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression.
 
 ## #language-makers Theme
 

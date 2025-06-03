@@ -17,8 +17,9 @@
 #
 # snapshot: ./custom-snapshot.yaml
 # snapshot: https://example.com/snapshots/2024-01-01.yaml
-snapshot:
-  url: https://raw.githubusercontent.com/commercialhaskell/stackage-snapshots/master/lts/23/24.yaml
+resolver: ghc-9.2.5
+
+
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -35,7 +36,11 @@ packages:
 # These entries can reference officially published versions as well as
 # forks / in-progress versions pinned to a git hash. For example:
 #
-# extra-deps:
+extra-deps:
+  -  hfmt-0.3.0.0
+  - stylish-haskell-0.13.0.0
+  -  hindent-6.0.0
+
 # - acme-missiles-0.3
 # - git: https://github.com/commercialhaskell/stack.git
 #   commit: e7b331f14bcffb8367cd58fbfc8b40ec7642100a
