@@ -75,9 +75,9 @@ True = Red
 
 False = Orange
 
-a and b = a b Orange
+a and b = Orange b a
 
-a or b = a Red b 
+a or b = b Red a 
 
 ## Compilation
 
