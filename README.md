@@ -89,11 +89,16 @@ Due to these evaluation rules, every string (including this README) is a valid C
 
 With the exception of colour definitions, the entire Colourful program is a single expression and will be evaluated to a single expression in the SKI combinator calculus.
 
-### Colour definitions
+
+### Everything is immutable 
 
 Colours are immutable. If re-defined, only the last definition is valid. The pre-defined colours cannot be re-defined. Any such attempt is ignored.
 
-Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. 
+### Colour definitions
+
+Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. All user-defined colours count as being defined BEFORE the pre-defined colours.
+
+Defining aliases for existing colours, either explicitly or implicitly, is allowed. Here, explicitly means assigning an existing colour to a new colour name, whereas implicitly means defining a new colour as an application of a colour to another colour, where there already exists a colour with this definition.
 
 ### Encoding literals
 
