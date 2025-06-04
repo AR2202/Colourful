@@ -54,7 +54,7 @@ Yellow Red Blue = Yellow
 
 ### User defined colours
 
-Colours have to be defined AFTER they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed BEFORE the definiton that references them.
+Colours have to be defined AFTER they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed BEFORE the definitons that it references.
 
 The syntax for definitions is:
 
@@ -83,7 +83,11 @@ Colour definitions have special syntax. However, syntactically incorrect definit
 
 ### Everything is valid
 
-Due to these evaluation rules, every sting (including this README) is a valid Colourful program.
+Due to these evaluation rules, every string (including this README) is a valid Colourful program.
+
+### Everything is one expression
+
+With the exception of colour definitions, the entire Colourful program is a single expression and will be evaluated to a single expression in the SKI combinator calculus.
 
 ### Colour definitions
 
@@ -124,7 +128,7 @@ Please do not define colours that are substrings or superstrings of pre-defined 
 
 ### Turing completeness
 
-Colourful using only pre-defined colours is not turing complete, due to the lack of parenthesized expressions. It should be possible to make it turing complete with user-defined colours. A proof is not given here.
+Colourful using only pre-defined colours is not Turing complete, due to the lack of parenthesized expressions. It should be  Turing complete with user-defined colours. A proof is not given here.
 
 ## Compilation
 
@@ -132,7 +136,7 @@ Colourful compiles to an expression in the [SKI combinator calculus](https://en.
 
 In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression. 
 
-The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
+The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not Turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
 
 With the exception of colour definitions, the entire program is treated as a single expression and transpiled to a single expression in the SKI combinator calculus.
 
