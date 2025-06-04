@@ -77,7 +77,7 @@ The semantics of Colourful are based on combinators from combinatory logic, with
 
 ### No errors or exceptions
 
-Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs. The user interface of the compiler could through exceptions, though, if e.g. the user attempts to compile a file that doesn't exist.
+Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs. The user interface of the compiler could throw exceptions, though, if e.g. the user attempts to compile a file that doesn't exist.
 
 Colour definitions have special syntax. However, syntactically incorrect definitions are just ignored.
 
@@ -93,7 +93,7 @@ Due to the absence of parentheses, a change of evaluation order requires definin
 
 As the system only allows application of colours to colours, any literals such as True, False, Integers etc have to be encoded using something analogous to church encodings.
 
-### Example: booleans
+### Example: encoding booleans
 
 Booleans need to be encoded as colors first.
 
@@ -105,7 +105,7 @@ a and b = Orange b a
 
 a or b = b Red a 
 
-So the expression  `True and False` would be represented as `Orange Orange Red`, which by the evaluation rules corresponds to Orange, i.e. false. 
+So the expression  `True and False` would be represented as `Orange Orange Red`, which, by the evaluation rules, corresponds to Orange, i.e. False. 
 
 But you could instead write:
 
@@ -115,7 +115,7 @@ Which would evaluate to the same result.
 
 ### Evaluation rules of user defined colours
 
-All definitions are immutbale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
+All definitions are immutabale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
 
 Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing (will be fixed in the future).
 
@@ -136,7 +136,7 @@ With the exception of colour definitions, the entire program is treated as a sin
 
 ## Implementation
 
-The first implementation will be a transpiler which translates an expression in Colourful to an expression in the SKI combinator calculus.
+The first implementation will be a transpiler written in Haskell which translates an expression in Colourful to an expression in the SKI combinator calculus.
 
 The next step will be an interpreter for the SKI combinator calculus.
 
