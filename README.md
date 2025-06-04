@@ -4,7 +4,7 @@ Welcome to Colourful - the language that brings colours into programming!
 
 ## Overview
 
-Colourful is an esoteric programming language based on combinatory logic. Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined AFTER it is used. Evaluation happens bottom to top and right to left.
+Colourful is an esoteric programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left.
 
 ## Syntax
 
@@ -91,7 +91,9 @@ Colours are immutable. If re-defined, only the last definition is valid. The pre
 
 Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. 
 
-As the system only allows application of colours to colours, any literals such as True, False, Integers etc have to be encoded using something analogous to church encodings.
+### Encoding literals
+
+As the system only allows application of colours to colours, any literals such as True, False, Integers etc have to be encoded using something analogous to [church encodings](https://en.wikipedia.org/wiki/Church_encoding).
 
 ### Example: encoding booleans
 
@@ -126,7 +128,7 @@ Colourful using only pre-defined colours is not turing complete, due to the lack
 
 ## Compilation
 
-Colourful compiles to an expression in the SKI combinator calculus, which is the output of the program.
+Colourful compiles to an expression in the [SKI combinator calculus](https://en.wikipedia.org/wiki/SKI_combinator_calculus), which is the output of the program.
 
 In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression. 
 
