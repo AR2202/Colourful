@@ -67,11 +67,14 @@ where
 * end is a mandatory keyword
 * = is a mandatory assignment operator
 
+newName is not checked for being a valid name commonly used for a colour in English or any other natural language. It should not be a substring or superstring of another colour as this would lead to unexpected behaviour. 
+
 ## Semantics
 
 The semantics of Colourful are based on combinators from combinatory logic, with the following differences:
 * in accordance with the theme of the jam, the program is evaluated end to start, so evaluation happens right to left
 * there are no parentheses
+
 ### No errors or exceptions
 
 Every possible string is a valid Colourful program, there are no errors or exceptions. Due to the absence of any static checks, it is very difficult to write correct programs. The user interface of the compiler could through exceptions, though, if e.g. the user attempts to compile a file that doesn't exist.
@@ -101,7 +104,17 @@ False = Orange
 a and b = Orange b a
 
 a or b = b Red a 
+
+So the expression  `True and False` would be represented as `Orange Orange Red`, which by the evaluation rules corresponds to Orange, i.e. false. 
+
+But you could instead write:
+
+` I was eating an Orange on my Orange bike, when a car ran the Red light and hit me.`
+
+Which would evaluate to the same result.
+
 ### Evaluation rules of user defined colours
+
 All definitions are immutbale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
 
 Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing (will be fixed in the future).
@@ -119,6 +132,18 @@ In the future (but probably beyond the scope of the #language-makers jam), this 
 
 The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
 
+With the exception of colour definitions, the entire program is treated as a single expression and transpiled to a single expression in the SKI combinator calculus.
+
+## Implementation
+
+The first implementation will be a transpiler which translates an expression in Colourful to an expression in the SKI combinator calculus.
+
+The next step will be an interpreter for the SKI combinator calculus.
+
+The ultimate goal is to also implement a backwards transpiler which translates the reduced (evaluated) SKI expression back to an expression in Colourful.
+
+A future goal (but beyond the current scope of the #language-makers jam) is an implementation with a GUI that can display the colours.
+
 ## #language-makers Theme
 
 ### The end is not the end
@@ -131,5 +156,15 @@ Colourful compiles the program from beginning to end, i.e. in the opposite direc
 
 ## Usage
 
-The haskell tool stack is recommended.
+The Haskell tool stack is recommended.
+
+Clone the repository (or download the code) and run it with
+
+`stack run`
+
+or
+
+`stack ghci`
+
+This project is work in progress - these instructions do not yet work and are going to be updated.
 
