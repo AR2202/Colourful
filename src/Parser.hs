@@ -10,6 +10,7 @@ module Parser
     Colour (..),
     SKI (..),
     colourDict,
+    parseColourdefWDict
   )
 where
 
@@ -80,11 +81,14 @@ isColourUse _ = False
 commentParser :: Parser Colour
 commentParser = Comment <$ anyChar
 
+commentParser' :: Parser Colour
+commentParser' = Comment <$ (notFollowedBy ( many1 alphaNum *> spaces*>string "White") *>anyChar )
+
 colourParser :: Parser Colour
 colourParser = ColourUse <$> choice (map string $ M.keys colourDict)
 
 coloursParser :: Parser [Colour]
-coloursParser = many (spaces *> (try colourParser <|> commentParser) <* spaces)
+coloursParser = many (spaces *> (try colourParser <|> commentParser') <* spaces)
 
 -- | Parses a colour; like colourParser, but takes the dictionary of colours as an argument
 colourParserWDict :: M.Map String SKI -> Parser Colour
@@ -92,7 +96,20 @@ colourParserWDict cDict = ColourUse <$> choice (map string $ M.keys cDict)
 
 -- | Parses many colours; like coloursParser, but takes the dictionary of colours as an argument
 coloursParserWDict :: M.Map String SKI -> Parser [Colour]
-coloursParserWDict cDict = many (spaces *> colourParserWDict cDict <* spaces)
+coloursParserWDict cDict = many (spaces *> (try (colourParserWDict cDict)  <|>  commentParser)<* spaces)
+
+-- | Parses many colours; like coloursParser, but takes the dictionary of colours as an argument
+coloursParserWDict' :: M.Map String SKI -> Parser [Colour]
+coloursParserWDict' cDict = many (spaces *> (try (colourParserWDict cDict)  <|> try commentParser')<* spaces)
+
+-- | helper for parsing the colourDef variant of Colour
+colourNameDefParser :: M.Map String SKI -> Parser Colour
+colourNameDefParser cDict = flip ColourDef <$> coloursParserWDict' cDict  <*> ( many1 alphaNum <*spaces)  
+
+-- | Parses the colourDef variant of Colour
+colourDefParser :: M.Map String SKI -> Parser Colour
+colourDefParser  cDict =  between (string "Black") ( string "White")  (colourNameDefParser cDict)
+
 
 -- parsing
 --------------
@@ -113,6 +130,9 @@ parseColoursWDict cDict = parse (coloursParserWDict cDict) ""
 parseComment :: T.Text -> Either ParseError Colour
 parseComment = parse commentParser ""
 
+-- | parse colourdef
+parseColourdefWDict :: M.Map String SKI -> T.Text -> Either ParseError Colour
+parseColourdefWDict cDict = parse (colourDefParser cDict) ""
 -- testing
 insertBrown :: M.Map String SKI
 insertBrown = insertColour "Brown" K colourDict
