@@ -36,7 +36,7 @@ parseAnd2SKI cDict t = buildAST <$> colours2SKI cDict <$> reverse <$> parseColou
 buildAST :: [SKI] -> SKI
 buildAST [] = EmptyString
 buildAST [x] = x
-buildAST (x : xs) = App x (buildAST xs)
+buildAST xs = App (buildAST (init xs)) (last xs)
 
 parseAnd2SKIColourdict :: T.Text -> Either ParseError SKI
 parseAnd2SKIColourdict = parseAnd2SKI colourDict

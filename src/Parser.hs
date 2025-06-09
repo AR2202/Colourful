@@ -32,7 +32,11 @@ instance Show SKI where
   show S = "S"
   show K = "K"
   show I = "I"
-  show (App x y) = "(" ++ show x ++ show y ++ ")"
+  show (App x S) = show x ++ "S"
+  show (App x K) = show x ++ "K"
+  show (App x I) = show x ++ "I"
+  show (App x EmptyString) = show x 
+  show (App x y) =  show x ++ "(" ++ show y ++ ")"
 
 colourDict :: M.Map String SKI
 colourDict =
