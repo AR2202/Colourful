@@ -8,7 +8,7 @@ Colourful is an esoteric programming language based on [combinatory logic](https
 
 ## Syntax
 
-In Colourful, only pre-defined or user-defined colours have meaning. All other characters (with the exception of the special form for colour definitions), including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
+In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
 
 Ideally, only ASCII characters should be used in a Colourful program.
 
@@ -56,18 +56,20 @@ Yellow Red Blue = Yellow
 
 Colours have to be defined AFTER they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed BEFORE the definitons that it references.
 
+Colour definitions are introduced with the colour definition colours Black and White.
+
 The syntax for definitions is:
 
-`end existingColours = newName newColour`
+`Black existingColours newName White`
 
 where 
 * existingColours is a sequence of existing colours that make up the definition (in the usual evaluation order, i.e. right to left)
-* newName is the name of the new colour, which can be anything except a pre-defined colour or a colour defined later in the program, or one of the keywords or the = sign
-* newColour is a mandatory keyword
-* end is a mandatory keyword
-* = is a mandatory assignment operator
+* newName, the word immediately preceeding White, is the name of the new colour, which can be anything except a pre-defined colour or a colour defined later in the program
+
 
 newName is not checked for being a valid name commonly used for a colour in English or any other natural language. It should not be a substring or superstring of another colour as this would lead to unexpected behaviour. 
+
+As ususal, additional words within the colour definitions are treated as comments. If there are no valid colours between the Black and White colour definition colours, the definition is ignored. Any Black not followed by White (before the next Black or the end of the Program) and any White not preceeded by Black is treated as a comment.
 
 ## Semantics
 
@@ -128,7 +130,7 @@ Which would evaluate to the same result.
 
 All definitions are immutabale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
 
-Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing (will be fixed in the future).
+Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing and therefore lead to unexpected behaviour (will be fixed in the future).
 
 
 ### Turing completeness
@@ -147,13 +149,15 @@ With the exception of colour definitions, the entire program is treated as a sin
 
 ## Implementation
 
-The first implementation will be a transpiler written in Haskell which translates an expression in Colourful to an expression in the SKI combinator calculus.
+1. The first implementation will be a transpiler written in Haskell which translates an expression in Colourful to an expression in the SKI combinator calculus.
 
-The next step will be an interpreter for the SKI combinator calculus.
+2. The next step will be an interpreter for the SKI combinator calculus.
 
-The ultimate goal is to also implement a backwards transpiler which translates the reduced (evaluated) SKI expression back to an expression in Colourful.
+3. The ultimate goal is to also implement a backwards transpiler which translates the reduced (evaluated) SKI expression back to an expression in Colourful.
 
-A future goal (but beyond the current scope of the #language-makers jam) is an implementation with a GUI that can display the colours.
+4. Stretch goal: use an LLM to create a story using the colours in the correct order such that the output is a story with evaluated colours.
+
+5. A future goal (but beyond the current scope of the #language-makers jam) is an implementation with a GUI that can display the colours. For this purpose, colours will be assigned hex codes for display purposes.
 
 ## #language-makers Theme
 
@@ -178,4 +182,6 @@ or
 `stack ghci`
 
 This project is work in progress - these instructions do not yet work and are going to be updated.
+
+There will also be more information in the Documentation.
 
