@@ -11,6 +11,7 @@ module Parser
     colourDict,
     parseColourdefWDict,
     parseBW,
+    isColourUse
   )
 where
 
@@ -89,7 +90,7 @@ colourParser :: Parser Colour
 colourParser = ColourUse <$> choice (map string $ M.keys colourDict)
 
 coloursParser :: Parser [Colour]
-coloursParser = many (spaces *> (try colourParser <|> commentParser') <* spaces)
+coloursParser = many (spaces *> (try colourParser <|> commentParser) <* spaces)
 
 -- | Parses a colour; like colourParser, but takes the dictionary of colours as an argument
 colourParserWDict :: M.Map String SKI -> Parser Colour

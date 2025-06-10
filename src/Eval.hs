@@ -6,6 +6,7 @@ import Transpiler
 import GHC.Generics (S)
 import qualified Data.Text as T
 
+-- | evaluation of SKI to a simpler SKI - not complete yet
 eval :: SKI -> SKI
 eval EmptyString = EmptyString
 eval S = S
@@ -17,7 +18,7 @@ eval (App K x) = App K (eval x)
 eval (App(App(App S x)y)z) = eval (App (App x z) (App y z))
 eval (App (App S K )_) = I
 eval (App(App S x) y) = App (App S (eval x)) (eval y)
-eval (App x y) = App (eval x) (eval y)
+eval (App x y) = eval (App (eval x) (eval y))
 
 evalFile :: FilePath -> IO ()
 evalFile filepath = do
