@@ -1,6 +1,10 @@
 module Main (main) where
 
-import Lib
+import Cli
+import qualified Data.Map as M
+
 
 main :: IO ()
-main = someFunc
+main = compilerCli commands
+
+commands = M.fromList [("test", const ( putStr "test"))]
