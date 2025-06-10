@@ -186,5 +186,5 @@ or
 
 This project is work in progress - these instructions do not yet work and are going to be updated.
 
-There will also be more information in the Documentation.
+There will also be more information in the [Documentation](https://github.com/AR2202/Colourful/blob/main/Documentation.md).
 
