@@ -4,6 +4,7 @@ module Transpiler
   ( parseAnd2SKI,
     parseAnd2SKIColourdict,
     insertDefs,
+    transpileFile
   )
 where
 
@@ -53,3 +54,10 @@ insertDef m _ = m
 -- insert all new colours
 insertDefs :: M.Map String SKI -> [Colour] -> M.Map String SKI
 insertDefs = L.foldl' insertDef
+
+transpileFile :: FilePath -> IO ()
+transpileFile filepath = do
+  contents <- readFile filepath  
+  case  parseAnd2SKIColourdict (T.pack contents) of 
+    Left err -> putStrLn "Parse Error"
+    Right ski -> print ski

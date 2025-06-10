@@ -132,6 +132,9 @@ All definitions are immutabale, with the LAST definition being the relevant one.
 
 Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing and therefore lead to unexpected behaviour (will be fixed in the future).
 
+### "Reverse lexical scope"
+
+All colours have to be defined AFTER they are used. Colours defined earlier in the program cannot be referenced. Colour definitions can only use other colours that are defined later in the program. Standard colours are defined AFTER any user-defined colours.
 
 ### Turing completeness
 
