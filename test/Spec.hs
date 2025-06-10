@@ -14,6 +14,7 @@ main = hspec $
       evalSKITest
       evalKSITest
       evalKIIKTest
+      evalparensTest
 
 -- | expectation for test that Yellow is parsed
 parseYellowExp :: Expectation
@@ -101,3 +102,17 @@ evalKIIKTest =
       it
         "should return K"
         evalKIIKExp
+
+evalparensExp :: Expectation
+evalparensExp =
+  eval  (App(App K I)(App I K))
+    `shouldBe` I
+
+-- |  test that KIIK is evaluated to K
+evalparensTest :: SpecWith ()
+evalparensTest =
+  describe "eval" $
+    context "when evaluating \"KI(IK)\"" $
+      it
+        "should return I"
+        evalparensExp
