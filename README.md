@@ -4,7 +4,7 @@ Welcome to Colourful - the language that brings colours into programming!
 
 ## Overview
 
-Colourful is an esoteric programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left.
+Colourful is an esoteric/satirical programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left.
 
 ## Syntax
 
@@ -64,7 +64,7 @@ The syntax for definitions is:
 
 where 
 * existingColours is a sequence of existing colours that make up the definition (in the usual evaluation order, i.e. right to left)
-* newName, the word immediately preceeding White, is the name of the new colour, which can be anything except a pre-defined colour or a colour defined later in the program
+* newName, the word immediately preceeding White, is the name of the new colour, which can be any alphanumeric string except a pre-defined colour or a colour defined later in the program.
 
 
 newName is not checked for being a valid name commonly used for a colour in English or any other natural language. It should not be a substring or superstring of another colour as this would lead to unexpected behaviour. 
