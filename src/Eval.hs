@@ -25,12 +25,12 @@ eval (App x y) = eval (App (eval x) (eval y))
 evalFile :: FilePath -> IO ()
 evalFile filepath = do
   contents <- readFile filepath  
-  case  parseAnd2SKIColourdict (T.pack contents) of 
+  case  parseInsert2SKI colourDict (T.pack contents) of 
     Left err -> putStrLn "Parse Error"
     Right ski -> print $ eval ski
 
 
 evalPrint str = 
-  case  parseAnd2SKIColourdict (T.pack str) of 
+  case  parseInsert2SKI colourDict (T.pack str) of 
     Left err -> putStrLn "Parse Error"
     Right ski -> print $ eval ski
