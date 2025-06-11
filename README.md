@@ -166,7 +166,9 @@ With the exception of colour definitions, the entire program is treated as a sin
 
 ### The end is not the end
 
-Colourful was designed for the #language-makers programming language jam with the theme "the end is not the end"
+Colourful was designed for the #language-makers programming language jam with the theme "the end is not the end".
+
+The programming language jam allocated one week for the design and one week for the implementation. Bear this in mind when trying to use Colourful.
 
 ### How Colourful fits this theme
 
@@ -184,7 +186,7 @@ or
 
 `stack ghci`
 
-This project is work in progress - these instructions do not yet work and are going to be updated.
+This project is work in progress. Instructions might change.
 
-There will also be more information in the [Documentation](https://github.com/AR2202/Colourful/blob/main/Documentation.md).
+Please find more information in the [Documentation](https://github.com/AR2202/Colourful/blob/main/Documentation.md).
 

@@ -1,6 +1,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 import Eval
 import Parser
+import Transpiler
 import Test.Hspec
 import Test.QuickCheck
 main :: IO ()
@@ -9,6 +10,11 @@ main = hspec $
       -- testing Parser
       parseYellowTest
       parseYellowSentenceTest
+      parseColourStringsTest
+
+      -- testing transpiler
+      transpileRedGreenTest
+      transpileDefAndUseTest
       -- eval
       evalYellowTest
       evalSKITest
@@ -45,6 +51,51 @@ parseYellowSentenceTest =
       it
         "should return Right (ColourUse Yellow)"
         parseYellowSentenceExp
+-- | expectation for test that Yellow is parsed in a sentence
+parseColourStringsExp :: Expectation
+parseColourStringsExp =
+  parseColourstrings "Red Green and Black Blue NewColour White and Yellow"
+    `shouldBe` Right [" and Yellow","Black Blue NewColour White","Red Green and "]
+
+-- |  test that colour definition strings are separated
+-- | appropriately from other strings
+parseColourStringsTest :: SpecWith ()
+parseColourStringsTest =
+  describe "parseInsert2SKI" $
+
+      it
+        "should separate the definition from the rest"
+        parseColourStringsExp
+-- transpiler
+--------------
+-- | expectation for test that Red Green and Black is correctly tranpiled
+transpileRedGreenExp :: Expectation
+transpileRedGreenExp =
+  parseInsert2SKI colourDict "Red Green and Black"
+    `shouldBe` Right (App K (App S I))
+
+-- |  test that Red Green and Black is correctly tranpiled
+transpileRedGreenTest :: SpecWith ()
+transpileRedGreenTest =
+  describe "parseInsert2SKI" $
+    context "when parsing \"Red Green and Black\"" $
+      it
+        "should return Right K(SI)"
+        transpileRedGreenExp
+
+transpileDefAndUseExp :: Expectation
+transpileDefAndUseExp =
+  parseInsert2SKI colourDict "Ocean Black Green Ocean White"
+    `shouldBe` Right (App S I)
+
+-- |  test that Red Green and Black is correctly tranpiled
+transpileDefAndUseTest :: SpecWith ()
+transpileDefAndUseTest =
+  describe "parseInsert2SKI" $
+    context "when parsing a definition and use of a new colour" $
+      it
+        "should return the transpiled definition of the new colour"
+        transpileDefAndUseExp
 -- eval
 ------------
 evalYellowExp :: Expectation

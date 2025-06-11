@@ -1,4 +1,4 @@
-# Documentation Colourful
+# Colourful Programming language Documentation 
 
 ## Compiler cli
 
