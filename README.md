@@ -4,7 +4,9 @@ Welcome to Colourful - the language that brings colours into programming!
 
 ## Overview
 
-Colourful is an esoteric/satirical programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced at the end of the programm. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left.
+Colourful is an esoteric/satirical programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced *after* they are used. Everything that is not a valid colour is a comment, every string is a syntactically valid program. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left. 
+
+The language was designed as a project in a 2-week programming languages jam.
 
 ## Syntax
 
