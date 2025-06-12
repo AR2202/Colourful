@@ -109,7 +109,7 @@ coloursParserWDict' cDict = many (spaces *> (try (colourParserWDict cDict) <|> t
 
 -- | helper for parsing the colourDef variant of Colour
 colourNameDefParser :: M.Map String SKI -> Parser Colour
-colourNameDefParser cDict = flip ColourDef <$> coloursParserWDict' cDict <*> (many1 alphaNum <* spaces)
+colourNameDefParser cDict = flip ColourDef <$> coloursParserWDict' cDict <*> (spaces *> many1 alphaNum <* spaces)
 
 -- | Parses the colourDef variant of Colour
 colourDefParser :: M.Map String SKI -> Parser Colour
@@ -119,13 +119,13 @@ colourDefParser cDict = between (string "Black") (string "White") (colourNameDef
 blackWhiteParser :: Parser String
 blackWhiteParser =
   do
-    _ <- string "Black"
+    _ <- try (string "Black")
     content <- manyTill anyChar (try (string "White"))
     guard (not ("Black" `isInfixOf` content))
 
     return $ "Black" ++ content ++ "White"
 notBlackWhiteParser :: Parser String
-notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser) <|> try (const "eof" <$> eof))
+notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser) <|> try (const "" <$> eof))
 
 colourStringsParser :: Parser [String]
 colourStringsParser = reverse <$> many (try blackWhiteParser <|> notBlackWhiteParser)

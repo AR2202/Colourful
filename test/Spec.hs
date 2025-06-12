@@ -16,6 +16,8 @@ main = hspec $
       -- testing transpiler
       transpileRedGreenTest
       transpileDefAndUseTest
+      transpile2DefsTest
+      transpile2DefsSimpleTest
       -- eval
       evalYellowTest
       evalSKITest
@@ -112,6 +114,33 @@ transpileDefAndUseTest =
       it
         "should return the transpiled definition of the new colour"
         transpileDefAndUseExp
+transpile2DefsExp :: Expectation
+transpile2DefsExp =
+  parseInsert2SKI colourDict "call False and True defining False:\nBlack starts the definition and assigns Orange to False White ends the definition. \nThe next definition we need is Black starts Red is defined as True White ends"
+    `shouldBe` Right (App(App (App K I)K)(App K I))
+
+-- |  test that 2 colour definitions and uses are correctly tranpiled
+transpile2DefsTest :: SpecWith ()
+transpile2DefsTest =
+  describe "parseInsert2SKI" $
+    context "when parsing a definition and use of 2 new colours" $
+      it
+        "should return the transpiled definition of the new colours"
+        transpile2DefsExp 
+
+transpile2DefsSimpleExp :: Expectation
+transpile2DefsSimpleExp =
+  parseInsert2SKI colourDict "False True False  Black Red True White Black Orange False White"
+    `shouldBe` Right (App(App (App K I)K)(App K I))
+
+-- |  test that 2 colour definitions and uses are correctly tranpiled
+transpile2DefsSimpleTest :: SpecWith ()
+transpile2DefsSimpleTest =
+  describe "parseInsert2SKI" $
+    context "when parsing a definition and use of 2 new colours" $
+      it
+        "should return the transpiled definition of the new colours"
+        transpile2DefsSimpleExp
 -- eval
 ------------
 evalYellowExp :: Expectation
