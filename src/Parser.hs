@@ -125,7 +125,7 @@ blackWhiteParser =
 
     return $ "Black" ++ content ++ "White"
 notBlackWhiteParser :: Parser String
-notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser <|> try (const "eof" <$> eof)))
+notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser) <|> try (const "eof" <$> eof))
 
 colourStringsParser :: Parser [String]
 colourStringsParser = reverse <$> many (try blackWhiteParser <|> notBlackWhiteParser)

@@ -1,10 +1,9 @@
 This is an example of a Colourful program performing boolean and.
 
-We define the boolean literals as colours:
-False = Orange
-True = Red
-
-a and b = Orange b a
+We can also define our own colours which we will call False and True to represent the boolean literals.
+We start by defining False:
+Black starts the definition and assigns Orange to False White ends the definition. 
+The next definition we need is Black starts Red is defined as True White ends
 
 
 

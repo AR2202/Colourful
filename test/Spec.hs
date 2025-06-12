@@ -11,6 +11,7 @@ main = hspec $
       parseYellowTest
       parseYellowSentenceTest
       parseColourStringsTest
+      parseColourStringsTest2
 
       -- testing transpiler
       transpileRedGreenTest
@@ -66,6 +67,21 @@ parseColourStringsTest =
       it
         "should separate the definition from the rest"
         parseColourStringsExp
+-- | expectation for test that Yellow is parsed in a sentence
+parseColourStringsExp2 :: Expectation
+parseColourStringsExp2 =
+  parseColourstrings "call False and True defining False:\nBlack starts the definition and assigns Orange to False White ends the definition. \nThe next definition we need is Black starts Red is defined as True White ends"
+    `shouldBe` Right ( reverse ["call False and True defining False:\n","Black starts the definition and assigns Orange to False White" ," ends the definition. \nThe next definition we need is ","Black starts Red is defined as True White"," ends"])
+
+-- |  test that colour definition strings are separated
+-- | appropriately from other strings
+parseColourStringsTest2 :: SpecWith ()
+parseColourStringsTest2 =
+  describe "parseInsert2SKI" $
+
+      it
+        "should separate the definition from the rest"
+        parseColourStringsExp2
 -- transpiler
 --------------
 -- | expectation for test that Red Green and Black is correctly tranpiled

@@ -30,6 +30,7 @@ evalFile filepath = do
     Right ski -> print $ eval ski
 
 
+evalPrint :: String -> IO ()
 evalPrint str = 
   case  parseInsert2SKI colourDict (T.pack str) of 
     Left err -> putStrLn "Parse Error"
