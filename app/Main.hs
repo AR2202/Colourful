@@ -8,6 +8,7 @@ import Transpiler (transpileFile, transpilePrint)
 main :: IO ()
 main = compilerCli commands
 
+commands :: M.Map String ([FilePath] -> IO ())
 commands =
   M.fromList
     [ ("test", const (putStr "test")),

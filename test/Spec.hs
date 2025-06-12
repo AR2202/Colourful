@@ -88,7 +88,7 @@ parseColourStringsTest2 =
 transpileRedGreenExp :: Expectation
 transpileRedGreenExp =
   parseInsert2SKI colourDict "Red Green and Black"
-    `shouldBe` Right (App K (App S I))
+    `shouldBe` Right (App  (App S I)K)
 
 -- |  test that Red Green and Black is correctly tranpiled
 transpileRedGreenTest :: SpecWith ()
@@ -96,7 +96,7 @@ transpileRedGreenTest =
   describe "parseInsert2SKI" $
     context "when parsing \"Red Green and Black\"" $
       it
-        "should return Right K(SI)"
+        "should return Right SIK"
         transpileRedGreenExp
 
 transpileDefAndUseExp :: Expectation

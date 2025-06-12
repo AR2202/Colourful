@@ -6,7 +6,7 @@ module Transpiler
     insertDefs,
     transpileFile,
     transpilePrint,
-    parseInsert2SKI
+    parseInsert2SKI,
   )
 where
 
@@ -59,16 +59,15 @@ insertDefs = L.foldl' insertDef
 
 parseinsertDef :: (M.Map String SKI, [Colour]) -> T.Text -> (M.Map String SKI, [Colour])
 parseinsertDef (colourMap, parsed) str = case parseColourdefWDict colourMap str of
-
   Right (ColourDef cname cdef) -> case buildAST $
     colours2SKI colourMap $
       reverse cdef of
-    EmptyString -> (colourMap, Comment:parsed)
-    skis -> (insertColour cname skis colourMap, ColourDef cname cdef:parsed)
-  Right x -> (colourMap, x:parsed)
+    EmptyString -> (colourMap, parsed ++ [Comment])
+    skis -> (insertColour cname skis colourMap, ColourDef cname cdef : parsed)
+  Right x -> (colourMap,  parsed ++ [x])
   Left _ -> case parseColoursWDict colourMap str of
-    Right colours -> (colourMap, colours ++ parsed)
-    Left  _ -> (colourMap, Comment : parsed)
+    Right colours -> (colourMap,  parsed ++ reverse colours)
+    Left _ -> (colourMap,  parsed ++ [Comment])
 
 parseinsertDefs :: M.Map String SKI -> T.Text -> Either ParseError (M.Map String SKI, [Colour])
 parseinsertDefs cmap str = L.foldl' parseinsertDef (cmap, []) . map T.pack <$> parse colourStringsParser "" str
@@ -82,7 +81,7 @@ parseInsert2SKI cmap str = buildAST <$> uncurry colours2SKI <$> parseinsertDefs 
 transpileFile :: FilePath -> IO ()
 transpileFile filepath = do
   contents <- readFile filepath
-  --case parseAnd2SKIColourdict (T.pack contents) of
+  -- case parseAnd2SKIColourdict (T.pack contents) of
   -- have to fix some error
   case parseInsert2SKI colourDict (T.pack contents) of
     Left err -> putStrLn "Parse Error"
@@ -90,10 +89,8 @@ transpileFile filepath = do
 
 transpilePrint :: String -> IO ()
 transpilePrint str = do
-  --case parseAnd2SKIColourdict (T.pack str) of
+  -- case parseAnd2SKIColourdict (T.pack str) of
   -- have to fix some error
   case parseInsert2SKI colourDict (T.pack str) of
     Left err -> putStrLn "Parse Error"
     Right ski -> print ski
-
-    
