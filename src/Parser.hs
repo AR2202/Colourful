@@ -97,7 +97,7 @@ coloursParser = many (spaces *> (try colourParser <|> commentParser) <* spaces)
 
 -- | Parses a colour; like colourParser, but takes the dictionary of colours as an argument
 colourParserWDict :: M.Map String SKI -> Parser Colour
-colourParserWDict cDict = ColourUse <$> choice (map string $ M.keys cDict)
+colourParserWDict cDict = ColourUse <$> choice (map (try . string) $ M.keys cDict)
 
 -- | Parses many colours; like coloursParser, but takes the dictionary of colours as an argument
 coloursParserWDict :: M.Map String SKI -> Parser [Colour]
