@@ -31,7 +31,7 @@ import Text.Parsec.Text
 -- Colour Parser
 data Colour = ColourUse String | ColourDef String [Colour] | Comment deriving (Show, Read, Eq)
 
-data SKI = EmptyString | S | K | I | App SKI SKI deriving (Read, Eq)
+data SKI = EmptyString | S | K | I | App SKI SKI deriving (Read, Eq, Ord)
 
 instance Show SKI where
   show EmptyString = ""
