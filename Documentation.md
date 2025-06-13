@@ -1,5 +1,18 @@
 # Colourful Programming language Documentation 
+<a id="top"></a>
 
+## Topics
+* [Compiler Cli](#cli)
+* [Cli Usage examples](#cli-ex)
+* [Exceptiongs](#errors)
+* [Programming with Colours](#colour-use)
+* [Colour use examples](#colour-use-ex)
+* [Comments](#comments)
+* [Commments Examples](#comments-ex)
+* [Defining Colours](#colour-def)
+* [Using Colour Definitions](#colour-def-ex)
+
+<a id="cli"></a>
 ## Compiler cli
 
 Clone or download the repo. Make sure you have Stack installed.
@@ -31,6 +44,9 @@ transpiles the input string to an SKI expression
 
 transpiles the input string to an SKI expression and evaluates it to a reduced SKI expression
 
+[Back to top](#top)
+
+<a id="cli-ex"></a>
 ### Examples 
 
 example programs are provided in the examples folder.
@@ -54,6 +70,9 @@ or evaluated by entering:
 
 `evalFile examples/andExampleWithDef.colour`
 
+[Back to top](#top)
+
+<a id="errors"></a>
 ### Exceptions/Errors
 
 While a Colourful program as such should never throw errors or crash (although it may never halt), the compiler cli *will* throw errors or crash under certain circumstances. A few examples are:
@@ -61,21 +80,30 @@ While a Colourful program as such should never throw errors or crash (although i
 * entering an invalid command
 * not providing the correct number of arguments required by the command
 * not properly terminating a string
-
+<a id="colour-use"></a>
 ## Using Predefined Colours
 
 To use the existing colours, all you need to do is write the Colours in the reverse order in which you woud like them to be applied.
 
+[Back to top](#top)
+
+<a id="colour-use-ex"></a>
 ### Example of Colour use
 
 `Red Green Yellow`
 
 applies Yellow to Green, and the result to Red.
 
+[Back to top](#top)
+
+<a id="comments"></a>
 ## Using Comments
 
 Everything that is not either a pre-defined or user-defined colour is treated as a Comment. Comments can appear anywhere in the program, including inside Colour definitions. 
 
+[Back to top](#top)
+
+<a id="comments-ex"></a>
 ### Comment Example
 
 `This is a comment with no colours`
@@ -86,6 +114,9 @@ is a comment that does not evaluate to anything.
 
 is a program in which only `Red Green Yellow` is interpreted and the rest of the characters are treated as comments. So this program is equivalent to the example above.
 
+[Back to top](#top)
+
+<a id="colour-def"></a>
 ## Colour definitions
 
 Defining your own color uses the Colours Black and White.
@@ -96,6 +127,9 @@ is the syntax for Colour Definitions.
 
 Colours have to be defined *after* they are used.
 
+[Back to top](#top)
+
+<a id="colour-def-ex"></a>
 ### Examples of Colour Definitions
 
 `Mycolour Black Red Mycolour White`
@@ -115,4 +149,6 @@ But in the program
 `Black Red Mycolour White Black Blue Mycolour Myothercolour White`
 
 Myothercolour is not defined, because it uses Mycolour in its definition, which is defined *before* it, so it can't be used in the definition of Myothercolour.
+
+[Back to top](#top)
 
