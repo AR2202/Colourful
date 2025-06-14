@@ -4,6 +4,7 @@ import Cli
 import qualified Data.Map as M
 import Eval (evalFile, evalPrint)
 import Transpiler (transpileFile, transpilePrint)
+import Backtranspiler  (backtranspileFile, backtranspilePrint)
 
 main :: IO ()
 main = compilerCli commands
@@ -16,16 +17,21 @@ commands =
       ("evalREADME", const (evalFile "README.md")),
       ("transpileFile", checkArgsFile transpileFile),
       ("evalFile", checkArgsFile evalFile),
+      ("backtranspileFile", checkArgsFile backtranspileFile),
       ("transpile", checkArgsPrint transpilePrint),
-      ("eval", checkArgsPrint evalPrint)
+      ("eval", checkArgsPrint evalPrint),
+      ("backtranspile", checkArgsPrint backtranspilePrint)
+
     ]
 
+checkArgsFile :: (t -> IO ()) -> [t] -> IO ()
 checkArgsFile _ []  =
   putStrLn "not enough arguments - please provide filepath"
 checkArgsFile f (x : xs) = f x
 
 
 
+checkArgsPrint :: (String -> IO ()) -> [String] -> IO ()
 checkArgsPrint f [] =
   putStrLn "not enough arguments - please provide input string"
 checkArgsPrint f xs = f $ unwords xs

@@ -36,6 +36,10 @@ transpiles the file at the provided filepath to an SKI expression
 
 transpiles the file at the provided filepath to an SKI expression and evaluates it to a reduced SKI expression
 
+`backtranspileFile <filepath>`
+
+transpiles the file at the provided filepath to an SKI expression, evaluates the SKI expression and transpiles the resulting SKI expression back to a colourful expression
+
 `transpile <input string>`
 
 transpiles the input string to an SKI expression
@@ -43,6 +47,10 @@ transpiles the input string to an SKI expression
 `eval <input string>`
 
 transpiles the input string to an SKI expression and evaluates it to a reduced SKI expression
+
+`backtranspile <input string>`
+
+transpiles the input string to an SKI expression, evaluates this SKI expression and transpiles it back to a Colourful expression
 
 [Back to top](#top)
 
@@ -59,7 +67,12 @@ or evaluated by entering:
 
 `evalFile examples/andExample.colour`
 
-The file contains a text consisting mostly of comments which explains what is going on in the program.
+or transpile the result back to a Colourful expression:
+
+`backtranspileFile examples/andExample.colour`
+
+The file contains a text consisting mostly of comments which explains what is going on in the program. the `backtranspileFile` option might be most intuitive.
+
 Another example that also corresponds to False and True, but uses user-defined Colours to actually
 call the boolean literals `False` and `True` is the file andExampleWithDef.colour.
 Transpile it like this:
@@ -69,6 +82,10 @@ Transpile it like this:
 or evaluated by entering:
 
 `evalFile examples/andExampleWithDef.colour`
+
+or transpile the result back to a Colourful expression:
+
+`backtranspileFile examples/andExampleWithDef.colour`
 
 [Back to top](#top)
 

@@ -2,6 +2,7 @@
 import Eval
 import Parser
 import Transpiler
+import Backtranspiler
 import Test.Hspec
 import Test.QuickCheck
 main :: IO ()
@@ -24,6 +25,11 @@ main = hspec $
       evalKSITest
       evalKIIKTest
       evalparensTest
+      -- backtranspiler
+      backtranspileSimpleTest
+      backtranspileWAppTest
+      backtranspileWDefTest
+
 
 -- | expectation for test that Yellow is parsed
 parseYellowExp :: Expectation
@@ -212,3 +218,49 @@ evalparensTest =
       it
         "should return I"
         evalparensExp
+
+-- backtranspiler
+-------------------
+backtranspileSimpleExp :: Expectation
+backtranspileSimpleExp =
+  backtranspile colourDict (App(App(App K I)I)K)
+    `shouldBe` "RedYellowOrange"
+
+-- |  test that simple SKI expression is backtranspiled to Colours
+backtranspileSimpleTest :: SpecWith ()
+backtranspileSimpleTest =
+  describe "backtranspile" $
+    context "when transpiling a simple SKI expression" $
+      it
+        "should return the correct colours"
+        backtranspileSimpleExp
+
+backtranspileWAppExp :: Expectation
+backtranspileWAppExp =
+  backtranspile colourDict  (App(App K I)(App  K I))
+    `shouldBe` "OrangeOrange"
+
+-- |  test that simple SKI expression is backtranspiled to Colours
+backtranspileWAppTest :: SpecWith ()
+backtranspileWAppTest =
+  describe "backtranspile" $
+    context "when transpiling a simple SKI expression" $
+      it
+        "should return the correct colours"
+        backtranspileWAppExp
+       
+
+backtranspileWDefExp :: Expectation
+backtranspileWDefExp =
+  backtranspile colourDict  (App(App K I)(App (App K I)S))
+    `shouldBe` "BrownOrange"
+
+-- |  test that simple SKI expression is backtranspiled to Colours
+backtranspileWDefTest :: SpecWith ()
+backtranspileWDefTest =
+  describe "backtranspile" $
+    context "when transpiling an undefined expression" $
+      it
+        "should create a new colour"
+        backtranspileWDefExp
+       
