@@ -5,7 +5,7 @@ module Backtranspiler
     backtranspile,
     transpileEvalBacktranspile,
     backtranspileFile,
-    backtranspilePrint
+    backtranspilePrint,
   )
 where
 
@@ -46,20 +46,26 @@ createColour cDict def = go "Brown"
 -- | transpiles, evaluates and backtranspiles a Colourful expression
 -- | via an intermediate SKI expression
 transpileEvalBacktranspile :: M.Map String SKI -> T.Text -> Either ParseError String
-transpileEvalBacktranspile cDict str =
-  backtranspile cDict . eval
-    <$> parseInsert2SKI cDict str
+transpileEvalBacktranspile cDict str = do
+  (cmap, ski) <- parseInsert2SKIWMap cDict str
+  return $ backtranspile cmap $ eval ski
+
 -- backtranspiling functions for use in cli
 --------------------------------------------
+
+-- | reads file, parses, transpiles and evaluates program
+-- | and transpiles back to Colourful
 backtranspileFile :: FilePath -> IO ()
 backtranspileFile filepath = do
   contents <- readFile filepath
-  case parseInsert2SKI colourDict (T.pack contents) of
+  case parseInsert2SKIWMap colourDict (T.pack contents) of
     Left err -> putStrLn "Parse Error"
-    Right ski -> print $ backtranspile colourDict $ eval ski
+    Right (cmap, ski) -> print $ backtranspile cmap $ eval ski
 
+-- | parses, transpiles and evaluates program
+-- | and transpiles back to Colourful
 backtranspilePrint :: String -> IO ()
 backtranspilePrint str = do
-  case parseInsert2SKI colourDict (T.pack str) of
+  case parseInsert2SKIWMap colourDict (T.pack str) of
     Left err -> putStrLn "Parse Error"
-    Right ski -> print $ backtranspile colourDict $ eval ski
+    Right (cmap, ski) -> print $ backtranspile cmap $ eval ski

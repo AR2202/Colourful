@@ -4,7 +4,7 @@
 ## Topics
 * [Compiler Cli](#cli)
 * [Cli Usage examples](#cli-ex)
-* [Exceptiongs](#errors)
+* [Exceptions](#errors)
 * [Programming with Colours](#colour-use)
 * [Colour use examples](#colour-use-ex)
 * [Comments](#comments)

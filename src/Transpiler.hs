@@ -7,6 +7,7 @@ module Transpiler
     transpileFile,
     transpilePrint,
     parseInsert2SKI,
+    parseInsert2SKIWMap
   )
 where
 
@@ -25,6 +26,7 @@ colour2SKI :: M.Map String a -> Colour -> Maybe a
 colour2SKI m (ColourUse colour) = M.lookup colour m
 colour2SKI _ _ = Nothing
 
+-- | transforms a list of colours to a list of SKI expressions
 colours2SKI :: M.Map String SKI -> [Colour] -> [SKI]
 colours2SKI m colours =
   map fromJust $
@@ -32,6 +34,7 @@ colours2SKI m colours =
       map (colour2SKI m) $
         colours
 
+-- | parse and transpile to SKI - does not work on definitions
 parseAnd2SKI :: M.Map String SKI -> T.Text -> Either ParseError SKI
 parseAnd2SKI cDict t = buildAST <$> colours2SKI cDict <$> reverse <$> parseColours t
 
@@ -64,10 +67,10 @@ parseinsertDef (colourMap, parsed) str = case parseColourdefWDict colourMap str 
       reverse cdef of
     EmptyString -> (colourMap, parsed ++ [Comment])
     skis -> (insertColour cname skis colourMap, ColourDef cname cdef : parsed)
-  Right x -> (colourMap,  parsed ++ [x])
+  Right x -> (colourMap, parsed ++ [x])
   Left _ -> case parseColoursWDict colourMap str of
-    Right colours -> (colourMap,  parsed ++ reverse colours)
-    Left _ -> (colourMap,  parsed ++ [Comment])
+    Right colours -> (colourMap, parsed ++ reverse colours)
+    Left _ -> (colourMap, parsed ++ [Comment])
 
 parseinsertDefs :: M.Map String SKI -> T.Text -> Either ParseError (M.Map String SKI, [Colour])
 parseinsertDefs cmap str = L.foldl' parseinsertDef (cmap, []) . map T.pack <$> parse colourStringsParser "" str
@@ -75,6 +78,15 @@ parseinsertDefs cmap str = L.foldl' parseinsertDef (cmap, []) . map T.pack <$> p
 -- | parses definitions and colour uses ans transpiles to SKI
 parseInsert2SKI :: M.Map String SKI -> T.Text -> Either ParseError SKI
 parseInsert2SKI cmap str = buildAST <$> uncurry colours2SKI <$> parseinsertDefs cmap str
+
+-- | like parseInsert2SKI, but returns the colour dictionary
+parseInsert2SKIWMap ::
+  M.Map String SKI ->
+  T.Text ->
+  Either ParseError (M.Map String SKI, SKI)
+parseInsert2SKIWMap cmap str =
+  let f (a, b) = (a, buildAST $ colours2SKI a b)
+   in f <$> parseinsertDefs cmap str
 
 -- transpiling functions for use in cli
 --------------------------------------------
