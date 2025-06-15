@@ -28,7 +28,6 @@ library
       Backtranspiler
       Cli
       Eval
-      Lib
       Parser
       Transpiler
   other-modules:

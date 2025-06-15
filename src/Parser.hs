@@ -14,7 +14,7 @@ module Parser
     isColourUse,
     parseColoursWDict,
     colourStringsParser,
-    parseColourstrings
+    parseColourstrings,
   )
 where
 
@@ -124,13 +124,12 @@ blackWhiteParser =
     guard (not ("Black" `isInfixOf` content))
 
     return $ "Black" ++ content ++ "White"
+
 notBlackWhiteParser :: Parser String
 notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser) <|> try (const "" <$> eof))
 
 colourStringsParser :: Parser [String]
 colourStringsParser = reverse <$> many (try blackWhiteParser <|> notBlackWhiteParser)
-
-
 
 -- parsing
 --------------
@@ -166,5 +165,3 @@ parseColourstrings = parse colourStringsParser ""
 -- testing
 insertBrown :: M.Map String SKI
 insertBrown = insertColour "Brown" K colourDict
-
-

@@ -1,35 +1,36 @@
 {-# LANGUAGE OverloadedStrings #-}
+
+import Backtranspiler
 import Eval
 import Parser
-import Transpiler
-import Backtranspiler
 import Test.Hspec
 import Test.QuickCheck
+import Transpiler
+
 main :: IO ()
 main = hspec $
-    do
-      -- testing Parser
-      parseYellowTest
-      parseYellowSentenceTest
-      parseColourStringsTest
-      parseColourStringsTest2
+  do
+    -- testing Parser
+    parseYellowTest
+    parseYellowSentenceTest
+    parseColourStringsTest
+    parseColourStringsTest2
 
-      -- testing transpiler
-      transpileRedGreenTest
-      transpileDefAndUseTest
-      transpile2DefsTest
-      transpile2DefsSimpleTest
-      -- eval
-      evalYellowTest
-      evalSKITest
-      evalKSITest
-      evalKIIKTest
-      evalparensTest
-      -- backtranspiler
-      backtranspileSimpleTest
-      backtranspileWAppTest
-      backtranspileWDefTest
-
+    -- testing transpiler
+    transpileRedGreenTest
+    transpileDefAndUseTest
+    transpile2DefsTest
+    transpile2DefsSimpleTest
+    -- eval
+    evalYellowTest
+    evalSKITest
+    evalKSITest
+    evalKIIKTest
+    evalparensTest
+    -- backtranspiler
+    backtranspileSimpleTest
+    backtranspileWAppTest
+    backtranspileWDefTest
 
 -- | expectation for test that Yellow is parsed
 parseYellowExp :: Expectation
@@ -60,43 +61,45 @@ parseYellowSentenceTest =
       it
         "should return Right (ColourUse Yellow)"
         parseYellowSentenceExp
+
 -- | expectation for test that Yellow is parsed in a sentence
 parseColourStringsExp :: Expectation
 parseColourStringsExp =
   parseColourstrings "Red Green and Black Blue NewColour White and Yellow"
-    `shouldBe` Right [" and Yellow","Black Blue NewColour White","Red Green and "]
+    `shouldBe` Right [" and Yellow", "Black Blue NewColour White", "Red Green and "]
 
 -- |  test that colour definition strings are separated
 -- | appropriately from other strings
 parseColourStringsTest :: SpecWith ()
 parseColourStringsTest =
   describe "parseInsert2SKI" $
+    it
+      "should separate the definition from the rest"
+      parseColourStringsExp
 
-      it
-        "should separate the definition from the rest"
-        parseColourStringsExp
 -- | expectation for test that Yellow is parsed in a sentence
 parseColourStringsExp2 :: Expectation
 parseColourStringsExp2 =
   parseColourstrings "call False and True defining False:\nBlack starts the definition and assigns Orange to False White ends the definition. \nThe next definition we need is Black starts Red is defined as True White ends"
-    `shouldBe` Right ( reverse ["call False and True defining False:\n","Black starts the definition and assigns Orange to False White" ," ends the definition. \nThe next definition we need is ","Black starts Red is defined as True White"," ends"])
+    `shouldBe` Right (reverse ["call False and True defining False:\n", "Black starts the definition and assigns Orange to False White", " ends the definition. \nThe next definition we need is ", "Black starts Red is defined as True White", " ends"])
 
 -- |  test that colour definition strings are separated
 -- | appropriately from other strings
 parseColourStringsTest2 :: SpecWith ()
 parseColourStringsTest2 =
   describe "parseInsert2SKI" $
+    it
+      "should separate the definition from the rest"
+      parseColourStringsExp2
 
-      it
-        "should separate the definition from the rest"
-        parseColourStringsExp2
 -- transpiler
 --------------
+
 -- | expectation for test that Red Green and Black is correctly tranpiled
 transpileRedGreenExp :: Expectation
 transpileRedGreenExp =
   parseInsert2SKI colourDict "Red Green and Black"
-    `shouldBe` Right (App  (App S I)K)
+    `shouldBe` Right (App (App S I) K)
 
 -- |  test that Red Green and Black is correctly tranpiled
 transpileRedGreenTest :: SpecWith ()
@@ -120,10 +123,11 @@ transpileDefAndUseTest =
       it
         "should return the transpiled definition of the new colour"
         transpileDefAndUseExp
+
 transpile2DefsExp :: Expectation
 transpile2DefsExp =
   parseInsert2SKI colourDict "call False and True defining False:\nBlack starts the definition and assigns Orange to False White ends the definition. \nThe next definition we need is Black starts Red is defined as True White ends"
-    `shouldBe` Right (App(App (App K I)K)(App K I))
+    `shouldBe` Right (App (App (App K I) K) (App K I))
 
 -- |  test that 2 colour definitions and uses are correctly tranpiled
 transpile2DefsTest :: SpecWith ()
@@ -132,12 +136,12 @@ transpile2DefsTest =
     context "when parsing a definition and use of 2 new colours" $
       it
         "should return the transpiled definition of the new colours"
-        transpile2DefsExp 
+        transpile2DefsExp
 
 transpile2DefsSimpleExp :: Expectation
 transpile2DefsSimpleExp =
   parseInsert2SKI colourDict "False True False  Black Red True White Black Orange False White"
-    `shouldBe` Right (App(App (App K I)K)(App K I))
+    `shouldBe` Right (App (App (App K I) K) (App K I))
 
 -- |  test that 2 colour definitions and uses are correctly tranpiled
 transpile2DefsSimpleTest :: SpecWith ()
@@ -147,6 +151,7 @@ transpile2DefsSimpleTest =
       it
         "should return the transpiled definition of the new colours"
         transpile2DefsSimpleExp
+
 -- eval
 ------------
 evalYellowExp :: Expectation
@@ -165,7 +170,7 @@ evalYellowTest =
 
 evalSKIExp :: Expectation
 evalSKIExp =
-  eval  (App(App S K)I)
+  eval (App (App S K) I)
     `shouldBe` I
 
 -- |  test that I is evaluated to I
@@ -179,7 +184,7 @@ evalSKITest =
 
 evalKSIExp :: Expectation
 evalKSIExp =
-  eval  (App(App K S)I)
+  eval (App (App K S) I)
     `shouldBe` S
 
 -- |  test that KSI is evaluated to S
@@ -193,7 +198,7 @@ evalKSITest =
 
 evalKIIKExp :: Expectation
 evalKIIKExp =
-  eval  (App(App(App K I)I)K)
+  eval (App (App (App K I) I) K)
     `shouldBe` K
 
 -- |  test that KIIK is evaluated to K
@@ -207,7 +212,7 @@ evalKIIKTest =
 
 evalparensExp :: Expectation
 evalparensExp =
-  eval  (App(App K I)(App I K))
+  eval (App (App K I) (App I K))
     `shouldBe` I
 
 -- |  test that KIIK is evaluated to K
@@ -223,10 +228,11 @@ evalparensTest =
 -------------------
 backtranspileSimpleExp :: Expectation
 backtranspileSimpleExp =
-  backtranspile colourDict (App(App(App K I)I)K)
+  backtranspile colourDict (App (App (App K I) I) K)
     `shouldBe` "RedYellowOrange"
 
--- |  test that simple SKI expression is backtranspiled to Colours
+-- |  test that simple SKI expression is
+-- | backtranspiled to Colours
 backtranspileSimpleTest :: SpecWith ()
 backtranspileSimpleTest =
   describe "backtranspile" $
@@ -237,10 +243,11 @@ backtranspileSimpleTest =
 
 backtranspileWAppExp :: Expectation
 backtranspileWAppExp =
-  backtranspile colourDict  (App(App K I)(App  K I))
+  backtranspile colourDict (App (App K I) (App K I))
     `shouldBe` "OrangeOrange"
 
--- |  test that simple SKI expression is backtranspiled to Colours
+-- |  test that simple SKI expression
+-- | is backtranspiled to Colours
 backtranspileWAppTest :: SpecWith ()
 backtranspileWAppTest =
   describe "backtranspile" $
@@ -248,12 +255,11 @@ backtranspileWAppTest =
       it
         "should return the correct colours"
         backtranspileWAppExp
-       
 
 backtranspileWDefExp :: Expectation
 backtranspileWDefExp =
-  backtranspile colourDict  (App(App K I)(App (App K I)S))
-    `shouldBe` "BrownOrange"
+  backtranspile colourDict (App (App K I) (App (App K I) S))
+    `shouldBe` "BrownOrangeBlack BlueOrange Brown White"
 
 -- |  test that simple SKI expression is backtranspiled to Colours
 backtranspileWDefTest :: SpecWith ()
@@ -263,4 +269,3 @@ backtranspileWDefTest =
       it
         "should create a new colour"
         backtranspileWDefExp
-       
