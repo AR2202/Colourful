@@ -3,7 +3,7 @@
 
 ## Topics
 * [Compiler Cli](#cli)
-* [Cli Usage examples](#cli-ex)
+* [Running example programs](#cli-ex)
 * [Exceptions](#errors)
 * [Programming with Colours](#colour-use)
 * [Colour use examples](#colour-use-ex)
