@@ -15,7 +15,9 @@
 <a id="cli"></a>
 ## Compiler cli
 
-Clone or download the repo. Make sure you have Stack installed.
+Clone or download the repo. Make sure you have [Stack](https://docs.haskellstack.org/en/stable/) installed.
+
+It might be possible to use the repo with cabal directly, but it hasn't been tested.
 
 Start the interface by typing `stack run`
 
