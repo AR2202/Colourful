@@ -3,21 +3,28 @@ This is an example of a Colourful program performing boolean and.
 We can also define our own colours which we will call False and True to represent the boolean literals.
 We start by defining False:
 Black starts the definition and assigns Orange to False White ends the definition. 
-The next definition we need is Black to start, Red is defined as True White ends the definition
+The next definition we need is Black to start, Red is defined as True White ends the definition.
 
 
+In the text down here, False and True 
+have no meaning, as this text comes 
+after the definition.
 
 The text in this file, in our representation, is equivalent
 to the boolean expression
 `False and True`.
 
+
+
 If we represent this in SKI combinator calculus, we can use:
 
 False = KI 
-True = KI
+True = K
 
 a and b = a b (KI)
-In the SKI combinator calculus, False and True 
+
+In the SKI combinator calculus, using these encodings, 
+False and True 
 corresponds to KIK(KI), 
 which evaluates to KI, which is False. 
 
@@ -25,3 +32,6 @@ This is the result we expect from the boolean expression `False and True`.
 
 You can evaluate this file by `evalFile examples/andExampleWithDef.colour`.
 To transpile it, use `transpileFile examples/andExampleWithDef.colour`.
+
+Yo can also transpile the evaluated result back to Colourful:
+`backtranspileFile examples/andExampleWithDef.colour`.

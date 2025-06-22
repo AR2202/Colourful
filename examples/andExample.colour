@@ -12,17 +12,19 @@ The text in this file, in our representation, is equivalent
 to the boolean expression
 `False and True`.
 
-If we represent this in SKI combinator calculus, we can use:
+If we encode this in SKI combinator calculus, we can use:
 
 False = KI 
-True = KI
+True = K
 
 a and b = a b (KI)
-In the SKI combinator calculus, False and True 
+In the SKI combinator calculus, using this encoding, False and True 
 corresponds to KIK(KI), 
 which evaluates to KI, which is False. 
 
 This is the result we expect from the boolean expression `False and True`.
 
-You can evaluate this file by `evalFile examples/andExampleWithDef.colour`.
-To transpile it, use `transpileFile examples/andExampleWithDef.colour`.
+You can evaluate this file by `evalFile examples/andExample.colour`.
+To transpile it, use `transpileFile examples/andExample.colour`.
+You can also transpile the result back to Colourful:
+`backtranspileFile examples/andExample.colour`.
