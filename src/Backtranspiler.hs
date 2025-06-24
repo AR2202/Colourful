@@ -25,15 +25,19 @@ invertMap m = M.fromList $ map swap $ M.toList m
 
 -- | transpile an SKI expression back to a Colourful expression string
 backtranspile :: M.Map String SKI -> SKI -> String
-backtranspile cDict (App ski1 ski2) = case M.lookup (App ski1 ski2) skiDict of
-  Just colour -> colour
+backtranspile cDict ski = snd $ backtranspile' cDict ski ""
+
+
+backtranspile' :: M.Map String SKI -> SKI -> [Char] -> (M.Map String SKI, [Char])
+backtranspile' cDict (App ski1 ski2) defs = case M.lookup (App ski1 ski2) skiDict of
+  Just colour -> (cDict, colour ++ defs)
   Nothing -> case M.lookup ski2 skiDict of
-    Just colour' -> colour' ++ backtranspile cDict ski1
-    Nothing -> backtranspile colDict (App ski1 ski2) ++ defstr
+    Just colour' -> (fst(backtranspile' cDict ski1 defs), colour' ++ snd (backtranspile' cDict ski1 defs))
+    Nothing -> (colDict, snd (backtranspile' colDict (App ski1 ski2) (defs ++ defstr)))
   where
     skiDict = invertMap cDict
     (defstr, colDict) = createColourWDef cDict ski2
-backtranspile cDict ski = M.findWithDefault "Can't transpile" ski skiDict
+backtranspile' cDict ski _ = (cDict, M.findWithDefault "Can't transpile" ski skiDict)
   where
     skiDict = invertMap cDict
 
@@ -53,13 +57,13 @@ createColourWDef :: M.Map String SKI -> SKI -> ([Char], M.Map String SKI)
 createColourWDef cDict def = go "Brown"
   where
     go colour = case M.lookup colour cDict of
-      Nothing -> (defstr colour, M.insert colour def cDict)
+      Nothing -> (defstr colour, M.insert colour def (newCdict colour))
       _ -> go (colour ++ "1")
     -- this is not quite correct yet, as it will nest definitions
     -- rather than chaining them
     -- but it will work if only one additional definition is needed
-    defstr colour = "Black " ++ backtranspile cDict def ++ " " ++ colour ++ " White"
-
+    defstr colour = "Black " ++ snd (backtranspile' (M.insert colour EmptyString cDict) def "") ++ " " ++ colour ++ " White"
+    newCdict colour = fst (backtranspile' (M.insert colour EmptyString cDict) def "")
 -- | transpiles, evaluates and backtranspiles a Colourful expression
 -- | via an intermediate SKI expression
 transpileEvalBacktranspile :: M.Map String SKI -> T.Text -> Either ParseError String

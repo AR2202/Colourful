@@ -31,6 +31,7 @@ main = hspec $
     backtranspileSimpleTest
     backtranspileWAppTest
     backtranspileWDefTest
+    backtranspileWDefsTest
 
 -- | expectation for test that Yellow is parsed
 parseYellowExp :: Expectation
@@ -269,3 +270,17 @@ backtranspileWDefTest =
       it
         "should create a new colour"
         backtranspileWDefExp
+
+backtranspileWDefsExp :: Expectation
+backtranspileWDefsExp =
+  backtranspile colourDict (App (App K I) (App (App K I) (App I K )))
+    `shouldBe` "BrownOrangeBlack Brown1Orange Brown WhiteBlack RedYellow Brown1 White"
+
+-- |  test that simple SKI expression is backtranspiled to Colours
+backtranspileWDefsTest :: SpecWith ()
+backtranspileWDefsTest =
+  describe "backtranspile" $
+    context "when transpiling a nested undefined expression" $
+      it
+        "should create new colours"
+        backtranspileWDefsExp
