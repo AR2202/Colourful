@@ -7,7 +7,7 @@ module Transpiler
     transpileFile,
     transpilePrint,
     parseInsert2SKI,
-    parseInsert2SKIWMap
+    parseInsert2SKIWMap,
   )
 where
 
@@ -36,7 +36,11 @@ colours2SKI m colours =
 
 -- | parse and transpile to SKI - does not work on definitions
 parseAnd2SKI :: M.Map String SKI -> T.Text -> Either ParseError SKI
-parseAnd2SKI cDict t = buildAST <$> colours2SKI cDict <$> reverse <$> parseColours t
+parseAnd2SKI cDict t =
+  buildAST
+    <$> colours2SKI cDict
+    <$> reverse
+    <$> parseColours t
 
 -- transforming a list of SKI into a SKI AST
 buildAST :: [SKI] -> SKI
@@ -61,23 +65,27 @@ insertDefs :: M.Map String SKI -> [Colour] -> M.Map String SKI
 insertDefs = L.foldl' insertDef
 
 parseinsertDef :: (M.Map String SKI, [Colour]) -> T.Text -> (M.Map String SKI, [Colour])
-parseinsertDef (colourMap, parsed) str = case parseColourdefWDict colourMap str of
-  Right (ColourDef cname cdef) -> case buildAST $
-    colours2SKI colourMap $
-      reverse cdef of
-    EmptyString -> (colourMap, parsed ++ [Comment])
-    skis -> (insertColour cname skis colourMap, ColourDef cname cdef : parsed)
-  Right x -> (colourMap, parsed ++ [x])
-  Left _ -> case parseColoursWDict colourMap str of
-    Right colours -> (colourMap, parsed ++ reverse colours)
-    Left _ -> (colourMap, parsed ++ [Comment])
+parseinsertDef (colourMap, parsed) str =
+  case parseColourdefWDict colourMap str of
+    Right (ColourDef cname cdef) -> case buildAST $
+      colours2SKI colourMap $
+        reverse cdef of
+      EmptyString -> (colourMap, parsed ++ [Comment])
+      skis -> (insertColour cname skis colourMap, ColourDef cname cdef : parsed)
+    Right x -> (colourMap, parsed ++ [x])
+    Left _ -> case parseColoursWDict colourMap str of
+      Right colours -> (colourMap, parsed ++ reverse colours)
+      Left _ -> (colourMap, parsed ++ [Comment])
 
 parseinsertDefs :: M.Map String SKI -> T.Text -> Either ParseError (M.Map String SKI, [Colour])
 parseinsertDefs cmap str = L.foldl' parseinsertDef (cmap, []) . map T.pack <$> parse colourStringsParser "" str
 
 -- | parses definitions and colour uses ans transpiles to SKI
 parseInsert2SKI :: M.Map String SKI -> T.Text -> Either ParseError SKI
-parseInsert2SKI cmap str = buildAST <$> uncurry colours2SKI <$> parseinsertDefs cmap str
+parseInsert2SKI cmap str =
+  buildAST
+    <$> uncurry colours2SKI
+    <$> parseinsertDefs cmap str
 
 -- | like parseInsert2SKI, but returns the colour dictionary
 parseInsert2SKIWMap ::
@@ -90,19 +98,17 @@ parseInsert2SKIWMap cmap str =
 
 -- transpiling functions for use in cli
 --------------------------------------------
+-- | reads the file at the provided path and transpiles it
 transpileFile :: FilePath -> IO ()
 transpileFile filepath = do
   contents <- readFile filepath
-  -- case parseAnd2SKIColourdict (T.pack contents) of
-  -- have to fix some error
   case parseInsert2SKI colourDict (T.pack contents) of
-    Left err -> putStrLn "Parse Error"
+    Left _ -> putStrLn "Parse Error"
     Right ski -> print ski
 
+-- | transpiles the input string
 transpilePrint :: String -> IO ()
 transpilePrint str = do
-  -- case parseAnd2SKIColourdict (T.pack str) of
-  -- have to fix some error
   case parseInsert2SKI colourDict (T.pack str) of
-    Left err -> putStrLn "Parse Error"
+    Left _ -> putStrLn "Parse Error"
     Right ski -> print ski

@@ -24,7 +24,10 @@ eval (App (App S K) _) = I
 eval (App S x) = App S (eval x)
 eval (App (App S x) y) = App (App S (eval x)) (eval y)
 eval (App x y) = eval (App (eval x) (eval y))
-
+-- functions for use in the CLI
+------------------------------------
+-- | transpiles the file at the provided filepath and evaluates the 
+-- | SKI expression
 evalFile :: FilePath -> IO ()
 evalFile filepath = do
   contents <- readFile filepath
@@ -32,6 +35,7 @@ evalFile filepath = do
     Left err -> putStrLn "Parse Error"
     Right ski -> print $ eval ski
 
+-- | transpiles the input string and evaluates the SKI expression
 evalPrint :: String -> IO ()
 evalPrint str =
   case parseInsert2SKI colourDict (T.pack str) of

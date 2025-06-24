@@ -33,5 +33,5 @@ This is the result we expect from the boolean expression `False and True`.
 You can evaluate this file by `evalFile examples/andExampleWithDef.colour`.
 To transpile it, use `transpileFile examples/andExampleWithDef.colour`.
 
-Yo can also transpile the evaluated result back to Colourful:
+You can also transpile the evaluated result back to Colourful:
 `backtranspileFile examples/andExampleWithDef.colour`.
