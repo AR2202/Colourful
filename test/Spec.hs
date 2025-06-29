@@ -274,7 +274,7 @@ backtranspileWDefTest =
 backtranspileWDefsExp :: Expectation
 backtranspileWDefsExp =
   backtranspile colourDict (App (App K I) (App (App K I) (App I K )))
-    `shouldBe` "BrownOrangeBlack Brown1Orange Brown WhiteBlack RedYellow Brown1 White"
+    `shouldBe` "Brown1OrangeBlack BrownOrange Brown1 WhiteBlack RedYellow Brown White"
 
 -- |  test that simple SKI expression is backtranspiled to Colours
 backtranspileWDefsTest :: SpecWith ()

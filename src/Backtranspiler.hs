@@ -24,10 +24,47 @@ invertMap :: (Ord k) => M.Map a k -> M.Map k a
 invertMap m = M.fromList $ map swap $ M.toList m
 
 -- | transpile an SKI expression back to a Colourful expression string
-backtranspile :: M.Map String SKI -> SKI -> String
-backtranspile cDict ski = snd $ backtranspile' cDict ski ""
+-- backtranspile :: M.Map String SKI -> SKI -> String
+-- backtranspile cDict ski = snd $ backtranspile' cDict ski ""
+backtranspile :: M.Map [Char] SKI -> SKI -> [Char]
+backtranspile cDict ski = makeBacktranspileString fullDict ski ++ makeDefs fullDict newDefs 
+  where fullDict = makeBacktranspileDict cDict ski 
+        newDefs = M.difference fullDict cDict
+-- | insert all required additional definitions into the dictionary
+makeBacktranspileDict :: M.Map [Char] SKI -> SKI -> M.Map [Char] SKI
+makeBacktranspileDict  cDict (App ski1 ski2) = case M.lookup (App ski1 ski2) skiDict of
+  Just _ -> cDict
+
+  Nothing -> case M.lookup ski2 skiDict of
+    Just _ -> makeBacktranspileDict cDict ski1 
+    Nothing -> makeBacktranspileDict (createColour ( makeBacktranspileDict cDict ski2) ski2) (App ski1 ski2)
+  where
+    skiDict = invertMap cDict
+makeBacktranspileDict cDict _  = cDict
+
+-- | creating the string, assuming the dictionary contains all definitions
+makeBacktranspileString :: M.Map [Char] SKI -> SKI -> [Char]
+makeBacktranspileString cDict (App ski1 ski2)  = case M.lookup (App ski1 ski2) skiDict of
+  Just colour -> colour 
+  Nothing -> case M.lookup ski2 skiDict of
+    Just colour' ->  colour' ++ makeBacktranspileString cDict ski1 
+    Nothing ->  "error make string" -- this should not happen
+  where
+    skiDict = invertMap cDict
+makeBacktranspileString cDict ski = M.findWithDefault "error skiNot there" ski skiDict 
+  where
+    skiDict = invertMap cDict
+-- | make a colour definition, given the colour and a dictionary
+-- | containing the definition
+-- this is using a default value for missing values 
+-- TODO improve error handling
+makeDef :: M.Map [Char] SKI -> [Char] -> [Char]
+makeDef cDict colour = "Black " ++ makeBacktranspileString (M.delete colour cDict) (M.findWithDefault I colour cDict) ++ " " ++ colour ++ " White"
 
 
+makeDefs :: M.Map [Char] SKI -> M.Map [Char] a -> [Char]
+makeDefs cDict newDefs = concatMap (makeDef cDict) (reverse $ M.keys newDefs)
+-- | attempt at fixing backtranspiler - not quite working
 backtranspile' :: M.Map String SKI -> SKI -> [Char] -> (M.Map String SKI, [Char])
 backtranspile' cDict (App ski1 ski2) defs = case M.lookup (App ski1 ski2) skiDict of
   Just colour -> (cDict, colour ++ defs)
