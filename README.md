@@ -174,7 +174,7 @@ The programming language jam allocated one week for the design and one week for 
 
 ### How Colourful fits this theme
 
-Colourful compiles the program from beginning to end, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has reverse lexical scope, meaning colours have to be defined AFTER they are used.
+Colourful compiles the program from end to beginning, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has reverse lexical scope, meaning colours have to be defined AFTER they are used.
 
 ## Usage
 
