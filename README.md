@@ -4,13 +4,13 @@ Welcome to Colourful - the language that brings colours into programming!
 
 ## Overview
 
-Colourful is an esoteric/satirical programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced *after* they are used. Everything that is not a valid colour is a comment, every string is a syntactically valid program. The language has "reverse lexical scope", i.e. everything has to be defined *AFTER* it is used. Evaluation happens bottom to top and right to left. 
+Colourful is an esoteric/satirical programming language based on [combinatory logic](https://en.wikipedia.org/wiki/Combinatory_logic). Instead of single letters, combinators are named after colours. Basic combinators are pre-defined as keywords in the language. User defined colours can be introduced *after* they are used. Everything that is not a valid colour is a comment, every string is a syntactically valid program. The language has "reverse lexical scope", i.e. everything has to be defined *after* it is used. Evaluation happens bottom to top and right to left. 
 
 The language was designed as a project in a 2-week programming languages jam.
 
 ## Syntax
 
-In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, are treated as comments. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
+In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, line breaks, commas, dots, are treated as comments. Comments can appear anywhere in the code, including inside colour definitions. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
 
 Ideally, only ASCII characters should be used in a Colourful program.
 
@@ -56,7 +56,7 @@ Yellow Red Blue = Yellow
 
 ### User defined colours
 
-Colours have to be defined AFTER they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed BEFORE the definitons that it references.
+Colours have to be defined *after* they are used. Colour definitions should be placed at the end of the file, with any definitions that reference other definitions being placed *before* the definitons that it references. It is not strictly required to place definitions at the end of the entire program, but they need to be below any place where they are being used.
 
 Colour definitions are introduced with the colour definition colours Black and White.
 
@@ -102,7 +102,7 @@ Colours are immutable. If re-defined, only the last definition is valid. The pre
 
 Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. All user-defined colours count as being defined BEFORE the pre-defined colours.
 
-Defining aliases for existing colours, either explicitly or implicitly, is allowed. Here, explicitly means assigning an existing colour to a new colour name, whereas implicitly means defining a new colour as an application of a colour to another colour, where there already exists a colour with this definition.
+Defining aliases for existing colours, either explicitly or implicitly, is allowed. Here, explicitly means assigning an existing colour to a new colour name, whereas implicitly means defining a new colour as an application of a colour other colours, where there already exists a colour with this definition.
 
 ### Encoding literals
 
@@ -110,7 +110,7 @@ As the system only allows application of colours to colours, any literals such a
 
 ### Example: encoding booleans
 
-Booleans need to be encoded as colors first.
+Booleans need to be encoded as colours first.
 
 True = Red 
 
@@ -130,23 +130,23 @@ Which would evaluate to the same result.
 
 ### Evaluation rules of user defined colours
 
-All definitions are immutabale, with the LAST definition being the relevant one. Pre-defined colours are defined last, AFTER all user-defined colours. It is not possible to re-define colours. 
+All definitions are immutabale, with the *LAST* definition being the relevant one. Pre-defined colours are defined last, *AFTER* all user-defined colours. It is not possible to re-define colours. 
 
 Please do not define colours that are substrings or superstrings of pre-defined or existing user-defined colours. This might mess up the parsing and therefore lead to unexpected behaviour (will be fixed in the future).
 
 ### "Reverse lexical scope"
 
-All colours have to be defined AFTER they are used. Colours defined earlier in the program cannot be referenced. Colour definitions can only use other colours that are defined later in the program. Standard colours are defined AFTER any user-defined colours.
+All colours have to be defined *AFTER* they are used. Colours defined earlier in the program cannot be referenced. Colour definitions can only use other colours that are defined later in the program. Pre-defined colours are defined *AFTER* any user-defined colours. They would therefore probably be more adequately named "post-defined colours".
 
 ### Turing completeness
 
-Colourful using only pre-defined colours is not Turing complete, due to the lack of parenthesized expressions. It should be  Turing complete with user-defined colours. A proof is not given here.
+Colourful using only pre-defined colours is not Turing complete, due to the lack of parenthesized expressions. It should be  Turing complete with user-defined colours. A proof is not provided here.
 
 ## Compilation
 
 Colourful compiles to an expression in the [SKI combinator calculus](https://en.wikipedia.org/wiki/SKI_combinator_calculus), which is the output of the program.
 
-In the future (but probably beyond the scope of the #language-makers jam), this could be evaluated and the reduced expression translated back to a Colourful expression. 
+Optionally, this could be evaluated by an interpreter and the reduced expression translated back to a Colourful expression. 
 
 The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not Turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
 
@@ -174,7 +174,7 @@ The programming language jam allocated one week for the design and one week for 
 
 ### How Colourful fits this theme
 
-Colourful compiles the program from end to beginning, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has reverse lexical scope, meaning colours have to be defined AFTER they are used.
+Colourful compiles the program from end to beginning, i.e. in the opposite direction of most programming languages. Combinators are applied to each other from right to left and bottom to top. The language has "reverse lexical scope" (a term invented for Colourful specifically, as far as I'm aware), meaning colours have to be defined *AFTER* they are used.
 
 ## Usage
 

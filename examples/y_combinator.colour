@@ -1,0 +1,24 @@
+This file shows how to define the famous YCombinator in Colourful.
+
+We need it to define recursion in a language that doesn't have it,
+most famously the lambda-calculus. 
+
+Recursion can be used to achieve anything that loops can do.
+
+Here is the actual definition:
+
+Black Brown Lime YCombinator White
+
+And now we need to define another user-defined colour
+that we used above in our definition of the YCombinator:
+
+Black Lime Green Red Purple Blue Brown White 
+
+Now Brown is defined. The other colours we used are pre-defined.
+
+To see how the YCombinator looks in the SKI combinator calculus,
+just transpile this file:
+
+transpileFile examples/y_combinator.colour
+
+don't try to evaluate it - the point of it is to go into infinite recursion.

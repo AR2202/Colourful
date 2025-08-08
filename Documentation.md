@@ -11,6 +11,7 @@
 * [Commments Examples](#comments-ex)
 * [Defining Colours](#colour-def)
 * [Using Colour Definitions](#colour-def-ex)
+* [Looping](#loop)
 
 <a id="cli"></a>
 ## Compiler cli
@@ -171,3 +172,21 @@ Myothercolour is not defined, because it uses Mycolour in its definition, which 
 
 [Back to top](#top)
 
+<a id="loop"></a>
+## Looping
+
+There are no explicit loops in Colourful. However, as you are probably aware, anything that can be done with a loop can also be achieved by recursion.
+
+There is no explicit recursion in Colourful either.
+
+### The Y combinator
+
+The [y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator) is a fixed point combinator which allows you to add recursion to a language that doesn't have it, most famously the [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
+
+The Y combinator can be expressed in Colourful as shown in the y_combinator.colour file in the examples folder. Transpile this file to an SKI version of the Y combinator by:
+
+`transpileFile examples/y_combinator.colour`
+
+Don't evaluate or backtranspile this file - it will go into infinite recursion!
+
+[Back to top](#top)
