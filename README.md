@@ -102,7 +102,7 @@ Colours are immutable. If re-defined, only the last definition is valid. The pre
 
 Due to the absence of parentheses, a change of evaluation order requires defining a new colour as the (partial) application of one colour to another. All user-defined colours count as being defined BEFORE the pre-defined colours.
 
-Defining aliases for existing colours, either explicitly or implicitly, is allowed. Here, explicitly means assigning an existing colour to a new colour name, whereas implicitly means defining a new colour as an application of a colour other colours, where there already exists a colour with this definition.
+Defining aliases for existing colours, either explicitly or implicitly, is allowed. Here, explicitly means assigning an existing colour to a new colour name, whereas implicitly means defining a new colour as an application of a colour to other colours, where there already exists a colour with this definition.
 
 ### Encoding literals
 
@@ -154,15 +154,19 @@ With the exception of colour definitions, the entire program is treated as a sin
 
 ## Implementation
 
-1. The first implementation will be a transpiler written in Haskell which translates an expression in Colourful to an expression in the SKI combinator calculus.
+1. The first step is a transpiler written in Haskell which translates an expression in Colourful to an expression in the SKI combinator calculus.
 
-2. The next step will be an interpreter for the SKI combinator calculus.
+2. The next step is an interpreter for the SKI combinator calculus.
 
 3. The ultimate goal is to also implement a backwards transpiler which translates the reduced (evaluated) SKI expression back to an expression in Colourful.
 
 4. Stretch goal: use an LLM to create a story using the colours in the correct order such that the output is a story with evaluated colours.
 
 5. A future goal (but beyond the current scope of the #language-makers jam) is an implementation with a GUI that can display the colours. For this purpose, colours will be assigned hex codes for display purposes.
+
+The compilation process can be terminated at any of these steps, revealing the internal workings. For example, you can do only the first step to inspect what the Colourful program you've written looks like as an SKI expression. You can stop at step 2 if you want to know what this SKI expression evaluates to. Or you can go on to step 3 to get what you would expect to get if you just evaluated the Colourful program directly.
+
+The main reason for this convoluted way of evaluating the expression is to increase absurdity. Another reason is to highlight the connection between Colourful and the SKI combinator calculus.
 
 ## #language-makers Theme
 
