@@ -183,6 +183,18 @@ There is no explicit recursion in Colourful either.
 
 The [y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator) is a fixed point combinator which allows you to add recursion to a language that doesn't have it, most famously the [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
 
+Haskell Curry (yes, this is *the* Haskell Curry that a certain programming language is named after) defined Y in combinatory logic as follows:
+
+`Y = BM(CBM)`
+
+Another fixed-point combinator in combinatory logic was defined by Alan Turing (probably doesn't need an introduction):
+
+`Y_Turing = M(B(SI)M)`
+
+Although Haskell Curry's Y is probably more commonly thought of at *the* Y combinator, I'm using Turing's here as it translates to a more compact expression in Colourful.
+
+Either way, it still requires defining a custom colour definition.
+
 The Y combinator can be expressed in Colourful as shown in the y_combinator.colour file in the examples folder. Transpile this file to an SKI version of the Y combinator by:
 
 `transpileFile examples/y_combinator.colour`

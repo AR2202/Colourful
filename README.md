@@ -196,3 +196,4 @@ This project is work in progress. Instructions might change.
 
 Please find more information in the [Documentation](https://github.com/AR2202/Colourful/blob/main/Documentation.md).
 
+Also have a look at the examples in the examples folder to see some Colourful programs.
