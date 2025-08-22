@@ -1,0 +1,14 @@
+
+This is the story of a Green frog, who turns Red when he is ashamed. 
+The frog met a cat with Black spots.
+The Green frog said: Hello White cat with Black spots! 
+Then he turned Red, because he was ashamed. 
+I don't know where in the World White cats with Black spots speak to frogs. 
+So, as any sensible person would expect, the cat said nothing. 
+And this is the end of the story.
+
+backtranspile this file to see what it evaluates to:
+
+`backtranspileFile examples/hello_world.colour`
+
+Though you might have guessed that from the filename.
