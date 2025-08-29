@@ -128,6 +128,8 @@ But you could instead write:
 
 Which would evaluate to the same result.
 
+Refer to the [Documentation](https://github.com/AR2202/Colourful/blob/main/Documentation.md) for a more detailed explanation of why this encoding works.
+
 ### Evaluation rules of user defined colours
 
 All definitions are immutabale, with the *LAST* definition being the relevant one. Pre-defined colours are defined last, *AFTER* all user-defined colours. It is not possible to re-define colours. 

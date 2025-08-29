@@ -12,6 +12,7 @@
 * [Defining Colours](#colour-def)
 * [Using Colour Definitions](#colour-def-ex)
 * [Looping](#loop)
+* [Encoding Booleans](#bool)
 
 <a id="cli"></a>
 ## Compiler cli
@@ -200,5 +201,89 @@ The Y combinator can be expressed in Colourful as shown in the y_combinator.colo
 `transpileFile examples/y_combinator.colour`
 
 Don't evaluate or backtranspile this file - it will go into infinite recursion!
+
+[Back to top](#top)
+
+<a id="bool"></a>
+
+### Encoding Booleans
+
+The boolean literals "True" and "False" as well as the usual boolean operators such as "AND", "OR", "NOT" are not predefined in Colourful. If you intend to write a programm using these constructs, they have to be encoded using colours. There are potentially multiple ways to do this that are valid. Here, we use:
+
+* True: Red
+* False: Orange
+* a AND b: Orange b a 
+* a OR b: b Red a
+
+This does not have to be made explicit, but we can make it explicit by defining our own colours:
+
+`Black Red True White`
+
+`Black Orange False White`
+
+`Black Orange AND White`
+
+`Black Red OR White`
+
+Now we can write expressions like AND True True or False OR True. However, we would have to do that before the definitions, so in a real program, this last sentence should have been above the definitions. I'm just putting it here for the purpose of the narrative. 
+
+#### Verifying our Boolean encodings
+
+To verify our encoding works as expected, we can go through the truth table:
+
+| a        |b      |expected: a and b|AND b a|
+| ------ | ----- |------|------ |
+| True     | True     | True | True|
+| False   | True        |False| Orange|
+| True  | False       |False| Orange|
+| False   | False      |False| Orange|
+
+Similarly, for or:
+
+| a        |b      |expected: a or b|b OR a|
+| ------ | ----- |------|------ |
+| True     | True     | True | True|
+| False   | True        |False| True|
+| True  | False       |False| True|
+| False   | False      |False| Orange|
+
+When we remind ourselves that Orange corresponds to False, these behave as expected.
+
+#### Why this works
+
+Why does this work?
+
+Consider the following Haskell code:
+
+`and a b = if a then b else False`
+
+We can define and like that as we expect this behaviour from and: if a is True, we have to check what b is - if it is True, a and b is True, so we return True. If it is False, we return false. Or, in other words, we return b, which is what the above function does.
+If a is False, we do not need to check what b is, because we already know that a and b is False, regardless of b, so we can just return false, which is what the else branch above does.
+
+Great, but what does this have to do with Orange and Red?
+
+Recall that Red is defined like this:
+
+y x Red = x
+
+It returns the argument to its left, i.e. it's first argument given the backwards evaluation order of Colourful. 
+
+If a is True, we can replace it whith Red, as that's how we encoded True. So the expression `AND b a ` corresponds to `AND b Red`, which evaluates to b. This is equivalent to what the code above does when a is True - it returns b.
+
+If a is False, we can replace it with Orange. `False and True` corresponds to `AND b Orange`. Recall that Orange is defined as Yellow Red (Red applied to Yellow). This is a combinator that takes and argument x, discards it, and always returns Yellow. So `AND b Orange` discards the b and returns `AND Yellow`. We know that Yellow is defined as:
+
+x Yellow = x
+
+So this expression evaluates to `AND` which is encoded as Orange, aka False.
+
+So this code does the same as the else branch in the Haskell code above, i.e. return False.  
+
+The same argument can be applied to OR:
+
+We can define a Haskell function:
+
+`or a b = if a then True else b`
+
+You should be able to convince yourself that this is how or should behave, and following the same logic as above, you can convince yourself that our encoding is correct. 
 
 [Back to top](#top)
