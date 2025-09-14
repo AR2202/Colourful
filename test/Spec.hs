@@ -15,12 +15,16 @@ main = hspec $
     parseYellowSentenceTest
     parseColourStringsTest
     parseColourStringsTest2
+    parseExtraWhiteTest
+    parseWhiteCommentTest
 
     -- testing transpiler
     transpileRedGreenTest
     transpileDefAndUseTest
     transpile2DefsTest
     transpile2DefsSimpleTest
+    transpileWhiteNoBlackTest
+    transpileWhiteWithDefTest
     -- eval
     evalYellowTest
     evalSKITest
@@ -78,6 +82,36 @@ parseColourStringsTest =
       "should separate the definition from the rest"
       parseColourStringsExp
 
+-- | expectation for test that an extra White is Parsed as a comment.
+parseExtraWhiteExp :: Expectation
+parseExtraWhiteExp =
+  parseColourstrings "White and Black Blue NewColour White and Yellow"
+    `shouldBe` Right [" and Yellow", "Black Blue NewColour White", "White and "]
+
+-- |  test that colour definition strings are separated
+-- | appropriately from other strings
+parseExtraWhiteTest :: SpecWith ()
+parseExtraWhiteTest =
+  describe "parseInsert2SKI" $
+    it
+      "should separate the definition from the rest"
+      parseExtraWhiteExp
+
+-- | expectation for test that an extra White is parsed as Comment
+parseWhiteCommentExp :: Expectation
+parseWhiteCommentExp =
+  filter isColourUse <$> parseColours "This colour is Yellow and White"
+    `shouldBe` Right [ColourUse "Yellow"]
+
+-- |  test that Yellow is parsed as Yellow
+parseWhiteCommentTest :: SpecWith ()
+parseWhiteCommentTest =
+  describe "parseColours" $
+    context "when parsing \"Yellow\" in a sentence" $
+      it
+        "should return Right (ColourUse Yellow)"
+        parseWhiteCommentExp
+
 -- | expectation for test that Yellow is parsed in a sentence
 parseColourStringsExp2 :: Expectation
 parseColourStringsExp2 =
@@ -110,8 +144,35 @@ transpileRedGreenTest =
       it
         "should return Right SIK"
         transpileRedGreenExp
+-- | expectation for test that Red Green and Black is correctly tranpiled
+transpileWhiteNoBlackExp :: Expectation
+transpileWhiteNoBlackExp =
+  parseInsert2SKI colourDict "Red Green and White"
+    `shouldBe` Right (App (App S I) K)
 
-transpileDefAndUseExp :: Expectation
+-- |  test that Red Green and Black is correctly tranpiled
+transpileWhiteNoBlackTest :: SpecWith ()
+transpileWhiteNoBlackTest =
+  describe "parseInsert2SKI" $
+    context "when parsing \"Red Green and White\"" $
+      it
+        "should return Right SIK"
+        transpileWhiteNoBlackExp
+-- | expectation for test that Red Green and Black is correctly tranpiled
+transpileWhiteWithDefExp :: Expectation
+transpileWhiteWithDefExp =
+  parseInsert2SKI colourDict "White Rose Black Red Green Rose White and another White"
+    `shouldBe` Right (App (App S I) K)
+
+-- |  test that Red Green and Black is correctly tranpiled
+transpileWhiteWithDefTest :: SpecWith ()
+transpileWhiteWithDefTest =
+  describe "parseInsert2SKI" $
+    context "when parsing an extra White" $
+      it
+        "should return Right SIK"
+        transpileWhiteWithDefExp
+transpileDefAndUseExp :: Expectationba
 transpileDefAndUseExp =
   parseInsert2SKI colourDict "Ocean Black Green Ocean White"
     `shouldBe` Right (App S I)
