@@ -172,7 +172,7 @@ transpileWhiteWithDefTest =
       it
         "should return Right SIK"
         transpileWhiteWithDefExp
-transpileDefAndUseExp :: Expectationba
+transpileDefAndUseExp :: Expectation
 transpileDefAndUseExp =
   parseInsert2SKI colourDict "Ocean Black Green Ocean White"
     `shouldBe` Right (App S I)

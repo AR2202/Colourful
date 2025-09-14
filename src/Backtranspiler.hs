@@ -53,7 +53,7 @@ makeBacktranspileString cDict (App ski1 ski2)  = case M.lookup (App ski1 ski2) s
     skiDict = invertMap cDict
 makeBacktranspileString cDict ski = M.findWithDefault "error skiNot there" ski skiDict 
   where
-    skiDict = invertMap cDict
+    skiDict = M.insert EmptyString "" $ invertMap cDict
 -- | make a colour definition, given the colour and a dictionary
 -- | containing the definition
 -- this is using a default value for missing values 
