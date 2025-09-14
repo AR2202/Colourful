@@ -12,6 +12,7 @@
 * [Defining Colours](#colour-def)
 * [Using Colour Definitions](#colour-def-ex)
 * [Looping](#loop)
+* [The Y combinator](#y)
 * [Encoding Booleans](#bool)
 
 <a id="cli"></a>
@@ -179,7 +180,9 @@ Myothercolour is not defined, because it uses Mycolour in its definition, which 
 There are no explicit loops in Colourful. However, as you are probably aware, anything that can be done with a loop can also be achieved by recursion.
 
 There is no explicit recursion in Colourful either.
+[Back to top](#top)
 
+<a id="y"></a>
 ### The Y combinator
 
 The [y combinator](https://en.wikipedia.org/wiki/Fixed-point_combinator#Y_combinator) is a fixed point combinator which allows you to add recursion to a language that doesn't have it, most famously the [lambda calculus](https://en.wikipedia.org/wiki/Lambda_calculus).
@@ -201,6 +204,22 @@ The Y combinator can be expressed in Colourful as shown in the y_combinator.colo
 `transpileFile examples/y_combinator.colour`
 
 Don't evaluate or backtranspile this file - it will go into infinite recursion!
+
+#### Y combinator example
+
+The examples folder also contains a file which has the y combinator applied to Orange. This will halt when run, so feel free to run:
+
+`backtranspileFile examples/y_combinator_orange.colour`
+
+#### How it works
+
+The Y combinator takes as an input a combinator and returns its least fixed point. A fixed point x of a function f is a point at which f(x) = f (f(x)).
+
+
+The combinator Orange takes an argument, discards it, and returns Yellow. The expression ` Yellow Orange` evaluates to `Yellow`. Therefore, Yellow is a fixed point for Orange. The example file y_combinator_orange.colour applies the Y combinator to Orange and evaluates to Yellow. Witness this by running:
+
+
+`backtranspileFile examples/y_combinator_orange.colour`
 
 [Back to top](#top)
 
