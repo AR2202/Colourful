@@ -80,7 +80,7 @@ parseinsertDef (colourMap, parsed) str =
 parseinsertDefs :: M.Map String SKI -> T.Text -> Either ParseError (M.Map String SKI, [Colour])
 parseinsertDefs cmap str = L.foldl' parseinsertDef (cmap, []) . map T.pack <$> parse colourStringsParser "" str
 
--- | parses definitions and colour uses ans transpiles to SKI
+-- | parses definitions and colour uses and transpiles to SKI
 parseInsert2SKI :: M.Map String SKI -> T.Text -> Either ParseError SKI
 parseInsert2SKI cmap str =
   buildAST

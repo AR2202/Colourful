@@ -51,7 +51,7 @@ makeBacktranspileString cDict (App ski1 ski2)  = case M.lookup (App ski1 ski2) s
     Nothing ->  "error make string" -- this should not happen
   where
     skiDict = invertMap cDict
-makeBacktranspileString cDict ski = M.findWithDefault "error skiNot there" ski skiDict 
+makeBacktranspileString cDict ski = M.findWithDefault "error ski not there" ski skiDict 
   where
     skiDict = M.insert EmptyString "" $ invertMap cDict
 -- | make a colour definition, given the colour and a dictionary

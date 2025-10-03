@@ -15,10 +15,12 @@ module Parser
     parseColoursWDict,
     colourStringsParser,
     parseColourstrings,
+    colourParserWDict,
   )
 where
 
 import Control.Monad (guard, void)
+import Data.List (sort)
 import qualified Data.Map as M
 import Data.Maybe (fromJust, isJust)
 import qualified Data.Text as T
@@ -29,7 +31,11 @@ import Text.Parsec.Combinator
 import Text.Parsec.Text
 
 -- Colour Parser
-data Colour = ColourUse String | ColourDef String [Colour] | Comment deriving (Show, Read, Eq)
+data Colour
+  = ColourUse String
+  | ColourDef String [Colour]
+  | Comment
+  deriving (Show, Read, Eq)
 
 data SKI = EmptyString | S | K | I | App SKI SKI deriving (Read, Eq, Ord)
 
@@ -87,33 +93,77 @@ commentParser :: Parser Colour
 commentParser = Comment <$ anyChar
 
 commentParser' :: Parser Colour
-commentParser' = Comment <$ (notFollowedBy (many1 alphaNum *> spaces *> string "White") *> anyChar)
+commentParser' =
+  Comment
+    <$ ( notFollowedBy (many1 alphaNum *> spaces *> string "White")
+           *> anyChar
+       )
 
 colourParser :: Parser Colour
 colourParser = ColourUse <$> choice (map string $ M.keys colourDict)
 
 coloursParser :: Parser [Colour]
-coloursParser = many (spaces *> (try colourParser <|> commentParser) <* spaces)
+coloursParser =
+  many
+    ( spaces
+        *> ( try colourParser
+               <|> commentParser
+           )
+        <* spaces
+    )
 
--- | Parses a colour; like colourParser, but takes the dictionary of colours as an argument
+-- | Parses a colour;
+-- | like colourParser, but takes the dictionary of colours as an argument
 colourParserWDict :: M.Map String SKI -> Parser Colour
-colourParserWDict cDict = ColourUse <$> choice (map (try . string) $ M.keys cDict)
+colourParserWDict cDict =
+  ColourUse
+    <$> ( notFollowedBy (many1 alphaNum *> spaces *> string "White")
+            *> choice
+              ( map (try . string) $
+                  reverse $
+                    sort $
+                      M.keys cDict
+              )
+        )
 
--- | Parses many colours; like coloursParser, but takes the dictionary of colours as an argument
+-- | Parses many colours;
+-- | like coloursParser, but takes the dictionary of colours as an argument
 coloursParserWDict :: M.Map String SKI -> Parser [Colour]
-coloursParserWDict cDict = many (spaces *> (try (colourParserWDict cDict) <|> commentParser) <* spaces)
+coloursParserWDict cDict =
+  many
+    ( spaces
+        *> ( try (colourParserWDict cDict)
+               <|> commentParser
+           )
+        <* spaces
+    )
 
--- | Parses many colours; like coloursParser, but takes the dictionary of colours as an argument
+-- | Parses many colours;
+-- | like coloursParser, but takes the dictionary of colours as an argument
 coloursParserWDict' :: M.Map String SKI -> Parser [Colour]
-coloursParserWDict' cDict = many (spaces *> (try (colourParserWDict cDict) <|> try commentParser') <* spaces)
+coloursParserWDict' cDict =
+  many
+    ( spaces
+        *> ( try (colourParserWDict cDict)
+               <|> try commentParser'
+           )
+        <* spaces
+    )
 
 -- | helper for parsing the colourDef variant of Colour
 colourNameDefParser :: M.Map String SKI -> Parser Colour
-colourNameDefParser cDict = flip ColourDef <$> coloursParserWDict' cDict <*> (spaces *> many1 alphaNum <* spaces)
+colourNameDefParser cDict =
+  flip ColourDef
+    <$> coloursParserWDict' cDict
+    <*> (spaces *> many1 alphaNum <* spaces)
 
 -- | Parses the colourDef variant of Colour
 colourDefParser :: M.Map String SKI -> Parser Colour
-colourDefParser cDict = between (string "Black") (string "White") (colourNameDefParser cDict)
+colourDefParser cDict =
+  between
+    (string "Black")
+    (string "White")
+    (colourNameDefParser cDict)
 
 -- | parsing out the colour definition Strings
 blackWhiteParser :: Parser String
@@ -126,10 +176,22 @@ blackWhiteParser =
     return $ "Black" ++ content ++ "White"
 
 notBlackWhiteParser :: Parser String
-notBlackWhiteParser = (:) <$> anyChar <*> manyTill anyChar (lookAhead (try blackWhiteParser) <|> try (const "" <$> eof))
+notBlackWhiteParser =
+  (:)
+    <$> anyChar
+    <*> manyTill
+      anyChar
+      ( lookAhead (try blackWhiteParser)
+          <|> try (const "" <$> eof)
+      )
 
 colourStringsParser :: Parser [String]
-colourStringsParser = reverse <$> many (try blackWhiteParser <|> notBlackWhiteParser)
+colourStringsParser =
+  reverse
+    <$> many
+      ( try blackWhiteParser
+          <|> notBlackWhiteParser
+      )
 
 -- parsing
 --------------
