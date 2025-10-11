@@ -1,6 +1,8 @@
 # Colourful Programming language Documentation 
 <a id="top"></a>
 
+This is the documentation of the Colourful Programming language. It mainly describes how to use the cli and the text-based version of the language, not the [online playground](https://ar2202.github.io/Colourful_playground/).
+
 ## Topics
 * [Compiler Cli](#cli)
 * [Running example programs](#cli-ex)

@@ -8,6 +8,9 @@ Colourful is an esoteric/satirical programming language based on [combinatory lo
 
 The language was designed as a project in a 2-week programming languages jam.
 
+## Playground
+
+Colourful now has an [online playground](https://ar2202.github.io/Colourful_playground/) that lets you program visually with colours.
 ## Syntax
 
 In Colourful, only pre-defined or user-defined colours have meaning. All other characters, including parentheses, line breaks, commas, dots, are treated as comments. Comments can appear anywhere in the code, including inside colour definitions. It is therefore possible to write a program as an entire story or poem, with only the colours having meaning. Due to these syntax rules, every program is valid Colourful syntax and it is impossible for syntax errors to occur. In a correct implementation of Colourful, parse errors are not possible either, nor are any compilation errors or runtime exceptions. 
