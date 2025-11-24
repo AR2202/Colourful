@@ -145,7 +145,9 @@ All colours have to be defined *AFTER* they are used. Colours defined earlier in
 
 ### Turing completeness
 
-Colourful using only pre-defined colours is not Turing complete, due to the lack of parenthesized expressions. It should be  Turing complete with user-defined colours. A proof is not provided here.
+My initial assumption was that Colourful using only pre-defined colours is not Turing complete, due to the lack of parenthesized expressions. This assumption, I now realize, may not be correct. It might be Turing complete without user-defined colours. 
+
+It should be Turing complete with user-defined colours. A proof is not provided here.
 
 ## Compilation
 
@@ -153,7 +155,7 @@ Colourful compiles to an expression in the [SKI combinator calculus](https://en.
 
 Optionally, this could be evaluated by an interpreter and the reduced expression translated back to a Colourful expression. 
 
-The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, is not Turing complete. In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
+The reason translating back to a Colourful expression is difficult is because due to the lack of parentheses, the language, when using only pre-defined colours, may not be Turing complete (but see Turing completeness for caveat). In order to have a target for any possible SKI expression in Colourful, it is necessary to add user-defined colours. The backwards compilation step from SKI to Colourful would need to define colours that the original program did not define. This is possible in theory, but may confuse the user.
 
 With the exception of colour definitions, the entire program is treated as a single expression and transpiled to a single expression in the SKI combinator calculus.
 
